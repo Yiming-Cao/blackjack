@@ -1,0 +1,1 @@
+https://trello.com/invite/b/6551deb328f20260b434527b/ATTI7d83f3db2e2b57cc76588be5e6955de217EE59EB/blackjack
