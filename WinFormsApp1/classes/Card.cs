@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Drawing;  // 添加命名空间以使用 Image
+using System.Drawing;
+using System.IO;
 
 namespace WinFormsApp1.classes
 {
@@ -14,69 +15,80 @@ namespace WinFormsApp1.classes
     public enum FaceValues
     {
         ACE = 1,
-        TWO,
-        THREE,
-        FOUR,
-        FIVE,
-        SIX,
-        SEVEN,
-        EIGHT,
-        NINE,
-        TEN,
-        JACK,
-        QUEEN,
-        KING,
+        TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
+        JACK, QUEEN, KING
     }
 
     public class Card
     {
-        private Suits suit;
-        private FaceValues faceValue;
-        private int value;
-        private Image img;
+        public Suits Suit { get; private set; }
+        public FaceValues FaceValue { get; private set; }
+        public int Value { get; private set; }
+        public Image Img { get; private set; }
 
-        public Suits Suit
+        public Card(Suits suit, FaceValues faceValue)
         {
-            get { return suit; }
-            set { suit = value; }
+            Suit = suit;
+            FaceValue = faceValue;
+            Value = GetCardValue(faceValue);
+            Img = LoadCardImage(suit, faceValue);
         }
 
-        public FaceValues FaceValue
+        private int GetCardValue(FaceValues faceValue)
         {
-            get { return faceValue; }
-        }
-
-        public int Value
-        {
-            get { return value; }
-        }
-
-        public Image Img
-        {
-            get { return img; }
-            set { img = value; }
-        }
-
-        public Card(Suits suit, FaceValues faceValue, Image img = null)
-        {
-            this.suit = suit;
-            this.faceValue = faceValue;
-            this.img = img;
-
-            switch (faceValue)
+            return faceValue switch
             {
-                case FaceValues.ACE:
-                    this.value = 11;
-                    break;
-                case FaceValues.TEN:
-                case FaceValues.JACK:
-                case FaceValues.QUEEN:
-                case FaceValues.KING:
-                    this.value = 10;
-                    break;
-                default:
-                    this.value = (int)faceValue;
-                    break;
+                FaceValues.ACE => 11,
+                FaceValues.TEN or FaceValues.JACK or FaceValues.QUEEN or FaceValues.KING => 10,
+                _ => (int)faceValue
+            };
+        }
+
+        private Image LoadCardImage(Suits suit, FaceValues faceValue)
+        {
+            string resourceName = $"{faceValue.ToString().ToLower()}_of_{suit.ToString().ToLower()}";
+            object imgObj = Properties.Resources.ResourceManager.GetObject(resourceName);
+
+            if (imgObj is byte[] imgBytes)
+            {
+                using (MemoryStream ms = new MemoryStream(imgBytes))
+                {
+                    return Image.FromStream(ms);
+                }
+            }
+            else if (imgObj is Image img)
+            {
+                return img;  // 如果资源是 Image 类型，直接返回
+            }
+            else
+            {
+                return LoadFallbackImage(); // 加载默认小丑牌
+            }
+        }
+
+        private Image LoadFallbackImage()
+        {
+            object fallbackObj = Properties.Resources.ResourceManager.GetObject("red_joker");
+
+            if (fallbackObj is byte[] imgBytes)
+            {
+                using (MemoryStream ms = new MemoryStream(imgBytes))
+                {
+                    return Image.FromStream(ms);
+                }
+            }
+            else if (fallbackObj is Image img)
+            {
+                return img;
+            }
+            return null; // 如果找不到，返回 null（不建议）
+        }
+
+        public void SetAceValueToOne()
+        {
+            if (FaceValue == FaceValues.ACE && Value == 11)
+            {
+                Value = 1;
             }
         }
     }

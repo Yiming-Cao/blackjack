@@ -59,5 +59,555 @@ namespace WinFormsApp1.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ace_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("ace_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ace_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("ace_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ace_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("ace_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ace_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("ace_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] back_of_card {
+            get {
+                object obj = ResourceManager.GetObject("back_of_card", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] black_joker {
+            get {
+                object obj = ResourceManager.GetObject("black_joker", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] eight_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("eight_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] eight_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("eight_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] eight_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("eight_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] eight_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("eight_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] five_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("five_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] five_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("five_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] five_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("five_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] five_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("five_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] four_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("four_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] four_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("four_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] four_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("four_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] four_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("four_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] jack_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("jack_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] jack_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("jack_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] jack_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("jack_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] jack_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("jack_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] king_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("king_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] king_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("king_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] king_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("king_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] king_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("king_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] nine_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("nine_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] nine_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("nine_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] nine_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("nine_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] nine_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("nine_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] queen_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("queen_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] queen_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("queen_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] queen_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("queen_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] queen_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("queen_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] red_joker {
+            get {
+                object obj = ResourceManager.GetObject("red_joker", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] seven_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("seven_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] seven_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("seven_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] seven_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("seven_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] seven_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("seven_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] six_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("six_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] six_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("six_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] six_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("six_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] six_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("six_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ten_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("ten_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ten_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("ten_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ten_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("ten_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ten_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("ten_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] three_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("three_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] three_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("three_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] three_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("three_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] three_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("three_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] two_of_clubs {
+            get {
+                object obj = ResourceManager.GetObject("two_of_clubs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] two_of_diamonds {
+            get {
+                object obj = ResourceManager.GetObject("two_of_diamonds", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] two_of_hearts {
+            get {
+                object obj = ResourceManager.GetObject("two_of_hearts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] two_of_spades {
+            get {
+                object obj = ResourceManager.GetObject("two_of_spades", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
