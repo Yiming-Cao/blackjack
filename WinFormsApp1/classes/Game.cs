@@ -52,22 +52,7 @@ namespace WinFormsApp1.classes
                 return;
             }
 
-            // 庄家回合：若小于 17 点，则自动要牌
-            while (dealer.Score < 17)
-            {
-                Card dealerCard = deck.DrawCard();
-                dealer.ReceiveCard(dealerCard);
-                
-            }
-
-            // 检查庄家是否爆牌
-            if (dealer.IsBust)
-            {
-                MessageBox.Show("Dealer Busts! Player Wins!");
-                RevealDealerCard();
-                EndGame(page);
-                return;
-            }
+            
 
             page.EnableHitButton(); // 重新启用 Hit 按钮
         }
