@@ -35,6 +35,8 @@ namespace WinFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
+            game.PlayerStand(this); // 传递当前 UI 界面
+            UpdateUI();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -44,7 +46,7 @@ namespace WinFormsApp1
 
         private void button4_Click(object sender, EventArgs e)
         {
-            game.PlayerHit(this); 
+            game.PlayerHit(this);
             UpdateUI();
         }
 
@@ -64,6 +66,14 @@ namespace WinFormsApp1
             button3.Enabled = false;
             button2.Enabled = false;
             button5.Enabled = false;
+        }
+
+        public void EnableAllButtons()
+        {
+            button4.Enabled = true;
+            button3.Enabled = true;
+            button2.Enabled = true;
+            button5.Enabled = true;
         }
 
 
@@ -144,5 +154,11 @@ namespace WinFormsApp1
             }
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            game.StartGame();
+            UpdateUI();
+            EnableAllButtons();
+        }
     }
 }

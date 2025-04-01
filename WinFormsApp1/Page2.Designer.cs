@@ -37,6 +37,7 @@
             button5 = new Button();
             panelPlayerCards = new Panel();
             panelDealerCards = new Panel();
+            button6 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -120,10 +121,21 @@
             panelDealerCards.Size = new Size(200, 100);
             panelDealerCards.TabIndex = 0;
             // 
+            // button6
+            // 
+            button6.Location = new Point(607, 418);
+            button6.Name = "button6";
+            button6.Size = new Size(92, 49);
+            button6.TabIndex = 10;
+            button6.Text = "Restart";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
             // Page2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button6);
             Controls.Add(panelDealerCards);
             Controls.Add(panelPlayerCards);
             Controls.Add(button5);
@@ -149,5 +161,6 @@
         private Button button5;
         private Panel panelPlayerCards;
         private Panel panelDealerCards;
+        private Button button6;
     }
 }

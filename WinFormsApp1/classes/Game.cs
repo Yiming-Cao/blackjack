@@ -32,8 +32,6 @@ namespace WinFormsApp1.classes
             player.ReceiveCard(deck.DrawCard());
             dealer.ReceiveCard(deck.DrawCard());
 
-            MessageBox.Show($"Player Cards: {player.Hand[0].FaceValue} & {player.Hand[1].FaceValue}\n" +
-                            $"Dealer Card: {dealer.Hand[0].FaceValue} (Hidden Card)");
         }
 
         public void PlayerHit(Page2 page)
@@ -74,27 +72,43 @@ namespace WinFormsApp1.classes
             page.EnableHitButton(); // 重新启用 Hit 按钮
         }
 
-        // 结束游戏逻辑
-        private void EndGame(Page2 page)
+        public void PlayerStand(Page2 ui)
         {
-            page.DisableAllButtons(); // 统一禁用所有操作按钮
+            // 1. 翻开庄家的第二张牌
+            RevealDealerCard();
+
+            // 2. 让庄家进行回合（自动补牌，直到 >= 17 或者爆牌）
+            DealerTurn(ui);
+
+            // 4. 结束游戏，禁用按钮
+            EndGame(ui);
+        }
+
+        // 结束游戏逻辑
+        private void EndGame(Page2 ui)
+        {
+            ui.DisableAllButtons(); // 统一禁用所有操作按钮
             RevealDealerCard();
             string result = GetWinner();
             MessageBox.Show(result);
         }
 
-        public void PlayerStand()
-        {
-            RevealDealerCard();
-            DealerTurn();
-            MessageBox.Show(GetWinner());
-        }
 
-        public void DealerTurn()
+
+        public void DealerTurn(Page2 ui)
         {
-            while (dealer.ShouldHit())
+            while (dealer.Score < 17)  // 庄家必须抽牌，直到 17 分或以上
             {
-                dealer.ReceiveCard(deck.DrawCard());
+                Card dealerCard = deck.DrawCard();
+                dealer.ReceiveCard(dealerCard);
+                // 更新 UI，显示庄家的新牌
+
+                // 如果庄家爆牌，直接结束
+                if (dealer.IsBust)
+                {
+                    MessageBox.Show("Dealer Busts! Player Wins!");
+                    return;
+                }
             }
         }
 
