@@ -91,5 +91,11 @@ namespace WinFormsApp1.classes
                 Value = 1;
             }
         }
+
+        public override string ToString()
+        {
+            return $"{FaceValue} of {Suit} ({Value} 点)";
+        }
+
     }
 }

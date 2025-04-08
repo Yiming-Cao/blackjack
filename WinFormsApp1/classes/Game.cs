@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
@@ -8,109 +9,82 @@ namespace WinFormsApp1.classes
     public class Game
     {
         private Deck deck;
-        private Player player;
+        private Player[] players;
         private Dealer dealer;
         private bool isDealerSecondCardHidden; // 标记庄家的第二张牌是否隐藏
+        private int currentDealRound = 0; // 用于判断发第几轮
 
         public Game()
         {
             deck = new Deck();
-            player = new Player();
+            deck.Shuffle();
+
+            players = new Player[4];
+            for (int i = 0; i < 4; i++)
+            {
+                players[i] = new Player();
+            }
+
             dealer = new Dealer();
         }
 
-        public void StartGame()
+        public Dealer GetDealer() => dealer;
+        public Player GetPlayer(int index) => players[index];
+
+        public Card DealCardToPlayer(int index)
         {
-            deck.Shuffle();
-            player.ResetHand();
-            dealer.ResetHand();
-            isDealerSecondCardHidden = true; // 游戏开始时隐藏庄家第二张牌
-
-            // 初始发牌
-            player.ReceiveCard(deck.DrawCard());
-            dealer.ReceiveCard(deck.DrawCard());
-            player.ReceiveCard(deck.DrawCard());
-            dealer.ReceiveCard(deck.DrawCard());
-
-        }
-
-        public void PlayerHit(Page2 page)
-        {
-            page.DisableHitButton(); // 禁用 Hit 按钮
-
-            // 玩家抽一张牌
-            Card newCard = deck.DrawCard();
-            player.ReceiveCard(newCard);
-            
-
-            // 检查玩家是否爆牌
-            if (player.IsBust)
+            if (players[index].Hand.Count <= currentDealRound)
             {
-                MessageBox.Show("Player Busts! Dealer Wins!");
-                RevealDealerCard();
-                EndGame(page);
-                return;
+                Card card = deck.DrawCard();
+                players[index].ReceiveCard(card);
+                return card;
             }
-
-            
-
-            page.EnableHitButton(); // 重新启用 Hit 按钮
+            return null; // 如果当前轮已经发了，就不再发
         }
 
-        public void PlayerStand(Page2 ui)
+        // 发牌给庄家：第一张牌（明牌）
+        public Card DealDealerFirstCard()
         {
-            // 1. 翻开庄家的第二张牌
-            RevealDealerCard();
-
-            // 2. 让庄家进行回合（自动补牌，直到 >= 17 或者爆牌）
-            DealerTurn(ui);
-
-            // 4. 结束游戏，禁用按钮
-            EndGame(ui);
-        }
-
-        // 结束游戏逻辑
-        private void EndGame(Page2 ui)
-        {
-            ui.DisableAllButtons(); // 统一禁用所有操作按钮
-            RevealDealerCard();
-            string result = GetWinner();
-            MessageBox.Show(result);
-        }
-
-
-
-        public void DealerTurn(Page2 ui)
-        {
-            while (dealer.Score < 17)  // 庄家必须抽牌，直到 17 分或以上
+            if (dealer.Hand.Count == 0)
             {
-                Card dealerCard = deck.DrawCard();
-                dealer.ReceiveCard(dealerCard);
-                // 更新 UI，显示庄家的新牌
-
-                // 如果庄家爆牌，直接结束
-                if (dealer.IsBust)
-                {
-                    MessageBox.Show("Dealer Busts! Player Wins!");
-                    return;
-                }
+                Card card = deck.DrawCard();
+                dealer.ReceiveCard(card);
+                // 第一张牌为明牌
+                isDealerSecondCardHidden = false;
+                return card;
             }
+            return null;
         }
 
-        public string GetWinner()
+        // 发牌给庄家：第二张牌（暗牌）
+        public Card DealDealerSecondCard()
         {
-            if (player.IsBust) return "Dealer Wins!";
-            if (dealer.IsBust) return "Player Wins!";
-            if (player.Score > dealer.Score) return "Player Wins!";
-            if (player.Score < dealer.Score) return "Dealer Wins!";
-            return "It's a Tie!";
+            if (dealer.Hand.Count == 1)
+            {
+                Card card = deck.DrawCard();
+                dealer.ReceiveCard(card);
+                // 第二张牌设置为隐藏
+                isDealerSecondCardHidden = true;
+                return card;
+            }
+            return null;
         }
 
-        public List<Card> GetPlayerCard() => player.Hand;
-        public List<Card> GetDealerCard() => dealer.Hand;
+        // 提供庄家手牌数
+        public int DealerCardCount() => dealer.Hand.Count;
 
-        // 🔹 让 UI 知道庄家的第二张牌应该被隐藏
+        // 让 UI 知道庄家第二张牌是否隐藏
         public bool IsDealerSecondCardHidden() => isDealerSecondCardHidden;
+
+
+        public bool ShouldAdvanceRound()
+        {
+            return players.All(p => p.Hand.Count > currentDealRound);
+        }
+
+        public bool CanDealMore() => currentDealRound < 1;
+
+        public void AdvanceRound() => currentDealRound++;
 
         // 🔹 触发游戏结束时翻开庄家的第二张牌
         public void RevealDealerCard() => isDealerSecondCardHidden = false;
