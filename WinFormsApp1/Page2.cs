@@ -9,12 +9,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormsApp1.classes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace WinFormsApp1
 {
     public partial class Page2 : UserControl
     {
         private Game game;
+        private System.Windows.Forms.Timer shuffleTimer;
+        private int shuffleFrame = 0;
+        private PictureBox shuffleBox;
+        private System.Windows.Forms.Timer decisionTimer;
+
 
 
         public Page2()
@@ -25,6 +31,58 @@ namespace WinFormsApp1
 
         private void Page2_Load(object sender, EventArgs e)
         {
+            decisionTimer = new System.Windows.Forms.Timer();
+            decisionTimer.Interval = 2000;
+            decisionTimer.Tick += DecisionTimer_Tick;
+
+        }
+
+        private void StartShuffleAnimation()
+        {
+            // 如果之前有图，就先移除  
+            if (shuffleBox != null && this.Controls.Contains(shuffleBox))
+                this.Controls.Remove(shuffleBox);
+
+            // 创建一个显示牌背的 PictureBox  
+            shuffleBox = new PictureBox
+            {
+                Size = new Size(80, 120),
+                Location = new Point(Width / 2 - 40, Height / 2 - 60), // 居中  
+                SizeMode = PictureBoxSizeMode.StretchImage
+            };
+
+            // 修复 CS0029 错误：将 byte[] 转换为 Image  
+            using (MemoryStream ms = new MemoryStream(Properties.Resources.back_of_card))
+            {
+                shuffleBox.Image = Image.FromStream(ms);
+            }
+
+            this.Controls.Add(shuffleBox);
+            shuffleBox.BringToFront();
+
+            // 创建 Timer  
+            shuffleFrame = 0;
+            shuffleTimer = new System.Windows.Forms.Timer();
+            shuffleTimer.Interval = 50; // 每 50ms 一帧  
+            shuffleTimer.Tick += ShuffleTimer_Tick;
+            shuffleTimer.Start();
+        }
+
+        private void ShuffleTimer_Tick(object sender, EventArgs e)
+        {
+            shuffleFrame++;
+
+            // 每次 Tick 可以稍微改变位置/角度来制造“在洗”的感觉
+            shuffleBox.Left = this.Width / 2 - 40 + (shuffleFrame % 2 == 0 ? -5 : 5);
+            shuffleBox.Top = this.Height / 2 - 60 + (shuffleFrame % 3 - 1) * 3;
+
+            if (shuffleFrame > 20) // 播放 20 帧左右
+            {
+                shuffleTimer.Stop();
+                shuffleTimer.Dispose();
+                this.Controls.Remove(shuffleBox); // 动画结束，移除
+                shuffleBox.Dispose();
+            }
         }
 
         private void DealToPlayer(int index, Panel panel)
@@ -36,16 +94,13 @@ namespace WinFormsApp1
                 ShowCardInPanel(dealtCard, panel, game.GetPlayer(index).Hand.Count - 1);
             }
 
-            if (game.ShouldAdvanceRound() && game.CanDealMore())
+            if (AllPlayersAndDealerHaveTwoCards())
             {
-                game.AdvanceRound();
-                MessageBox.Show("进入下一轮发牌！");
+                decisionTimer.Start(); // 开始计时，2 秒后触发气泡
             }
-            else if (game.ShouldAdvanceRound() && !game.CanDealMore())
-            {
-                MessageBox.Show("所有玩家已发完 2 张牌，请为庄家发牌！");
-            }
+
         }
+
 
         private void ShowCardInPanel(Card card, Panel panel, int index)
         {
@@ -126,32 +181,96 @@ namespace WinFormsApp1
                 Card c = game.DealDealerSecondCard();
                 if (c != null)
                     ShowHiddenCardInPanel(c, panelDealerCards, 1);
-                MessageBox.Show("庄家发完两张牌！");
             }
             else
             {
-                MessageBox.Show("庄家已发完牌！");
+                // ✅ 第三张及之后的牌为明牌
+                Card c = game.DealExtraDealerCard();
+                if (c != null)
+                    ShowCardInPanel(c, panelDealerCards, dealerCount);
             }
         }
 
         private void buttonShowDealerCard_Click(object sender, EventArgs e)
         {
-            if (panelDealerCards.Controls.Count > 1)
+            foreach (Control ctrl in panelDealerCards.Controls)
             {
-                PictureBox secondCard = panelDealerCards.Controls[1] as PictureBox;
-                if (secondCard != null && secondCard.Tag is Card realCard)
+                if (ctrl is PictureBox pb && pb.Tag is Card card)
                 {
-                    MessageBox.Show($"庄家的暗牌是：{realCard.ToString()}");
-                }
-                else
-                {
-                    MessageBox.Show("找不到庄家的暗牌！");
+                    // 找到有 Card 的 PictureBox（暗牌），显示出来
+                    MessageBox.Show($"庄家的暗牌是：{card}");
+                    return;
                 }
             }
-            else
+
+            MessageBox.Show("庄家还没发暗牌，或无法识别！");
+        }
+
+        private void buttonShuffle_Click(object sender, EventArgs e)
+        {
+            StartShuffleAnimation(); // 播放动画
+            game.ShuffleDeck();      // 执行洗牌逻辑
+        }
+
+        private void ShowPlayerDecision(int index, string message)
+        {
+            Label targetLabel = index switch
             {
-                MessageBox.Show("庄家还没发第二张牌！");
+                0 => labelPlayer1Bubble,
+                1 => labelPlayer2Bubble,
+                2 => labelPlayer3Bubble,
+                3 => labelPlayer4Bubble,
+                _ => null
+            };
+
+            if (targetLabel != null)
+            {
+                targetLabel.Text = message;
+                targetLabel.Visible = true;
+                targetLabel.BringToFront();
+
+                // 可选：2 秒后自动隐藏
+                System.Windows.Forms.Timer hideTimer = new System.Windows.Forms.Timer();
+                hideTimer.Interval = 2000;
+                hideTimer.Tick += (s, e) =>
+                {
+                    targetLabel.Visible = false;
+                    hideTimer.Stop();
+                    hideTimer.Dispose();
+                };
+                hideTimer.Start();
             }
         }
+
+
+
+
+
+        private bool AllPlayersAndDealerHaveTwoCards()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (game.GetPlayer(i).Hand.Count != 2)
+                    return false;
+            }
+
+            if (game.GetDealer().Hand.Count != 2) // Fixed the issue by calling the method instead of treating it as a method group
+                return false;
+
+            return true;
+        }
+
+        private void DecisionTimer_Tick(object sender, EventArgs e)
+        {
+            decisionTimer.Stop(); // 停止定时器，防止重复触发
+
+            for (int i = 0; i < 4; i++)
+            {
+                int total = game.GetPlayer(i).Hand.Sum(card => card.Value);
+                string decision = total < 17 ? "Hit" : "Stand";
+                ShowPlayerDecision(i, decision); // 你之前已有这个方法
+            }
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace WinFormsApp1.classes
 {
@@ -48,5 +49,11 @@ namespace WinFormsApp1.classes
                 }
             }
         }
+
+        public int GetHandValue()
+        {
+            return Hand.Sum(card => card.Value);
+        }
+
     }
 }

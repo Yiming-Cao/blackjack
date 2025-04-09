@@ -28,47 +28,51 @@ namespace WinFormsApp1.classes
             dealer = new Dealer();
         }
 
+        public void ShuffleDeck()
+        {
+            deck.Shuffle();
+        }
+
         public Dealer GetDealer() => dealer;
         public Player GetPlayer(int index) => players[index];
 
         public Card DealCardToPlayer(int index)
         {
-            if (players[index].Hand.Count <= currentDealRound)
-            {
-                Card card = deck.DrawCard();
-                players[index].ReceiveCard(card);
-                return card;
-            }
-            return null; // 如果当前轮已经发了，就不再发
+            Card card = deck.DrawCard();
+            players[index].ReceiveCard(card);
+            return card;
         }
 
         // 发牌给庄家：第一张牌（明牌）
         public Card DealDealerFirstCard()
         {
-            if (dealer.Hand.Count == 0)
-            {
+
                 Card card = deck.DrawCard();
                 dealer.ReceiveCard(card);
                 // 第一张牌为明牌
                 isDealerSecondCardHidden = false;
                 return card;
-            }
-            return null;
+
         }
 
         // 发牌给庄家：第二张牌（暗牌）
         public Card DealDealerSecondCard()
         {
-            if (dealer.Hand.Count == 1)
-            {
                 Card card = deck.DrawCard();
                 dealer.ReceiveCard(card);
                 // 第二张牌设置为隐藏
                 isDealerSecondCardHidden = true;
                 return card;
-            }
-            return null;
+
         }
+
+        public Card DealExtraDealerCard()
+        {
+            Card card = deck.DrawCard();
+            dealer.ReceiveCard(card);  // 发牌到庄家手上
+            return card;
+        }
+
 
         // 提供庄家手牌数
         public int DealerCardCount() => dealer.Hand.Count;

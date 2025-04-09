@@ -97,5 +97,9 @@ namespace WinFormsApp1.classes
             return $"{FaceValue} of {Suit} ({Value} 点)";
         }
 
+        internal static int Sum(Func<object, object> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

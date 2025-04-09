@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Page2));
             pictureBox1 = new PictureBox();
             buttonShuffle = new Button();
@@ -47,6 +48,11 @@
             buttonDeal4 = new Button();
             buttonDealDealer = new Button();
             buttonShowDealerCard = new Button();
+            timerShuffle = new System.Windows.Forms.Timer(components);
+            labelPlayer1Bubble = new Label();
+            labelPlayer2Bubble = new Label();
+            labelPlayer3Bubble = new Label();
+            labelPlayer4Bubble = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -69,6 +75,7 @@
             buttonShuffle.TabIndex = 5;
             buttonShuffle.Text = "Shuffle";
             buttonShuffle.UseVisualStyleBackColor = true;
+            buttonShuffle.Click += buttonShuffle_Click;
             // 
             // buttonDeal
             // 
@@ -228,10 +235,50 @@
             buttonShowDealerCard.UseVisualStyleBackColor = true;
             buttonShowDealerCard.Click += buttonShowDealerCard_Click;
             // 
+            // labelPlayer1Bubble
+            // 
+            labelPlayer1Bubble.AutoSize = true;
+            labelPlayer1Bubble.Location = new Point(101, 124);
+            labelPlayer1Bubble.Name = "labelPlayer1Bubble";
+            labelPlayer1Bubble.Size = new Size(38, 15);
+            labelPlayer1Bubble.TabIndex = 22;
+            labelPlayer1Bubble.Text = "label1";
+            // 
+            // labelPlayer2Bubble
+            // 
+            labelPlayer2Bubble.AutoSize = true;
+            labelPlayer2Bubble.Location = new Point(270, 20);
+            labelPlayer2Bubble.Name = "labelPlayer2Bubble";
+            labelPlayer2Bubble.Size = new Size(38, 15);
+            labelPlayer2Bubble.TabIndex = 23;
+            labelPlayer2Bubble.Text = "label2";
+            // 
+            // labelPlayer3Bubble
+            // 
+            labelPlayer3Bubble.AutoSize = true;
+            labelPlayer3Bubble.Location = new Point(410, 20);
+            labelPlayer3Bubble.Name = "labelPlayer3Bubble";
+            labelPlayer3Bubble.Size = new Size(38, 15);
+            labelPlayer3Bubble.TabIndex = 24;
+            labelPlayer3Bubble.Text = "label3";
+            // 
+            // labelPlayer4Bubble
+            // 
+            labelPlayer4Bubble.AutoSize = true;
+            labelPlayer4Bubble.Location = new Point(583, 133);
+            labelPlayer4Bubble.Name = "labelPlayer4Bubble";
+            labelPlayer4Bubble.Size = new Size(38, 15);
+            labelPlayer4Bubble.TabIndex = 25;
+            labelPlayer4Bubble.Text = "label4";
+            // 
             // Page2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(labelPlayer4Bubble);
+            Controls.Add(labelPlayer3Bubble);
+            Controls.Add(labelPlayer2Bubble);
+            Controls.Add(labelPlayer1Bubble);
             Controls.Add(buttonShowDealerCard);
             Controls.Add(buttonDealDealer);
             Controls.Add(buttonDeal4);
@@ -255,6 +302,7 @@
             Load += Page2_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -277,5 +325,10 @@
         private Button buttonDeal4;
         private Button buttonDealDealer;
         private Button buttonShowDealerCard;
+        private System.Windows.Forms.Timer timerShuffle;
+        private Label labelPlayer1Bubble;
+        private Label labelPlayer2Bubble;
+        private Label labelPlayer3Bubble;
+        private Label labelPlayer4Bubble;
     }
 }
