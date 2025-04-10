@@ -94,7 +94,7 @@ namespace WinFormsApp1.classes
 
         public override string ToString()
         {
-            return $"{FaceValue} of {Suit} ({Value} 点)";
+            return $"{FaceValue} of {Suit} ({Value} point)";
         }
 
         internal static int Sum(Func<object, object> value)

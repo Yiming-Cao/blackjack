@@ -181,7 +181,7 @@
             buttonDeal1.Name = "buttonDeal1";
             buttonDeal1.Size = new Size(75, 23);
             buttonDeal1.TabIndex = 16;
-            buttonDeal1.Text = "buttonDeal1";
+            buttonDeal1.Text = "Deal1";
             buttonDeal1.UseVisualStyleBackColor = true;
             buttonDeal1.Click += buttonDeal1_Click;
             // 
@@ -191,7 +191,7 @@
             buttonDeal2.Name = "buttonDeal2";
             buttonDeal2.Size = new Size(75, 23);
             buttonDeal2.TabIndex = 17;
-            buttonDeal2.Text = "buttonDeal2";
+            buttonDeal2.Text = "Deal2";
             buttonDeal2.UseVisualStyleBackColor = true;
             buttonDeal2.Click += buttonDeal2_Click;
             // 
@@ -201,7 +201,7 @@
             buttonDeal3.Name = "buttonDeal3";
             buttonDeal3.Size = new Size(75, 23);
             buttonDeal3.TabIndex = 18;
-            buttonDeal3.Text = "buttonDeal3";
+            buttonDeal3.Text = "Deal3";
             buttonDeal3.UseVisualStyleBackColor = true;
             buttonDeal3.Click += buttonDeal3_Click;
             // 
@@ -211,7 +211,7 @@
             buttonDeal4.Name = "buttonDeal4";
             buttonDeal4.Size = new Size(75, 23);
             buttonDeal4.TabIndex = 19;
-            buttonDeal4.Text = "buttonDeal4";
+            buttonDeal4.Text = "Deal4";
             buttonDeal4.UseVisualStyleBackColor = true;
             buttonDeal4.Click += buttonDeal4_Click;
             // 
@@ -221,17 +221,17 @@
             buttonDealDealer.Name = "buttonDealDealer";
             buttonDealDealer.Size = new Size(75, 23);
             buttonDealDealer.TabIndex = 20;
-            buttonDealDealer.Text = "buttonDealDealer";
+            buttonDealDealer.Text = "DealDealer";
             buttonDealDealer.UseVisualStyleBackColor = true;
             buttonDealDealer.Click += buttonDealDealer_Click;
             // 
             // buttonShowDealerCard
             // 
-            buttonShowDealerCard.Location = new Point(326, 431);
+            buttonShowDealerCard.Location = new Point(311, 418);
             buttonShowDealerCard.Name = "buttonShowDealerCard";
-            buttonShowDealerCard.Size = new Size(75, 23);
+            buttonShowDealerCard.Size = new Size(103, 49);
             buttonShowDealerCard.TabIndex = 21;
-            buttonShowDealerCard.Text = "buttonShowDealerCard";
+            buttonShowDealerCard.Text = "SeeDealerCard";
             buttonShowDealerCard.UseVisualStyleBackColor = true;
             buttonShowDealerCard.Click += buttonShowDealerCard_Click;
             // 
@@ -243,6 +243,7 @@
             labelPlayer1Bubble.Size = new Size(38, 15);
             labelPlayer1Bubble.TabIndex = 22;
             labelPlayer1Bubble.Text = "label1";
+            labelPlayer1Bubble.Visible = false;
             // 
             // labelPlayer2Bubble
             // 
@@ -252,6 +253,7 @@
             labelPlayer2Bubble.Size = new Size(38, 15);
             labelPlayer2Bubble.TabIndex = 23;
             labelPlayer2Bubble.Text = "label2";
+            labelPlayer2Bubble.Visible = false;
             // 
             // labelPlayer3Bubble
             // 
@@ -261,6 +263,7 @@
             labelPlayer3Bubble.Size = new Size(38, 15);
             labelPlayer3Bubble.TabIndex = 24;
             labelPlayer3Bubble.Text = "label3";
+            labelPlayer3Bubble.Visible = false;
             // 
             // labelPlayer4Bubble
             // 
@@ -270,6 +273,7 @@
             labelPlayer4Bubble.Size = new Size(38, 15);
             labelPlayer4Bubble.TabIndex = 25;
             labelPlayer4Bubble.Text = "label4";
+            labelPlayer4Bubble.Visible = false;
             // 
             // Page2
             // 

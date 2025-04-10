@@ -87,6 +87,9 @@ namespace WinFormsApp1
 
         private void DealToPlayer(int index, Panel panel)
         {
+
+            HidePlayerDecision(index);
+
             Card dealtCard = game.DealCardToPlayer(index);
 
             if (dealtCard != null)
@@ -181,6 +184,12 @@ namespace WinFormsApp1
                 Card c = game.DealDealerSecondCard();
                 if (c != null)
                     ShowHiddenCardInPanel(c, panelDealerCards, 1);
+
+                // ✅ 添加这个判断
+                if (AllPlayersAndDealerHaveTwoCards())
+                {
+                    decisionTimer.Start(); // 所有人都有两张牌了，开始显示 Hit/Stand
+                }
             }
             else
             {
@@ -198,12 +207,12 @@ namespace WinFormsApp1
                 if (ctrl is PictureBox pb && pb.Tag is Card card)
                 {
                     // 找到有 Card 的 PictureBox（暗牌），显示出来
-                    MessageBox.Show($"庄家的暗牌是：{card}");
+                    MessageBox.Show($"Hidden card is：{card}");
                     return;
                 }
             }
 
-            MessageBox.Show("庄家还没发暗牌，或无法识别！");
+            MessageBox.Show("No Hidden Card !!");
         }
 
         private void buttonShuffle_Click(object sender, EventArgs e)
@@ -229,20 +238,26 @@ namespace WinFormsApp1
                 targetLabel.Visible = true;
                 targetLabel.BringToFront();
 
-                // 可选：2 秒后自动隐藏
-                System.Windows.Forms.Timer hideTimer = new System.Windows.Forms.Timer();
-                hideTimer.Interval = 2000;
-                hideTimer.Tick += (s, e) =>
-                {
-                    targetLabel.Visible = false;
-                    hideTimer.Stop();
-                    hideTimer.Dispose();
-                };
-                hideTimer.Start();
             }
         }
 
 
+        private void HidePlayerDecision(int index)
+        {
+            Label targetLabel = index switch
+            {
+                0 => labelPlayer1Bubble,
+                1 => labelPlayer2Bubble,
+                2 => labelPlayer3Bubble,
+                3 => labelPlayer4Bubble,
+                _ => null
+            };
+
+            if (targetLabel != null)
+            {
+                targetLabel.Visible = false;
+            }
+        }
 
 
 
