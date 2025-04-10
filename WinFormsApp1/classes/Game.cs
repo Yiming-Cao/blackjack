@@ -8,17 +8,17 @@ namespace WinFormsApp1.classes
 {
     public class Game
     {
-        private Deck deck;
+        private List<Card> deck;
         private Player[] players;
         private Dealer dealer;
         private bool isDealerSecondCardHidden; // 标记庄家的第二张牌是否隐藏
         private int currentDealRound = 0; // 用于判断发第几轮
+        private int numberOfDecks = 1;
+
 
         public Game()
         {
-            deck = new Deck();
-            deck.Shuffle();
-
+            
             players = new Player[4];
             for (int i = 0; i < 4; i++)
             {
@@ -26,11 +26,20 @@ namespace WinFormsApp1.classes
             }
 
             dealer = new Dealer();
+            ShuffleDeck(); // Ensure deck is initialized
+
+        }
+
+        public void SetDeckCount(int count)
+        {
+            numberOfDecks = count;
         }
 
         public void ShuffleDeck()
         {
-            deck.Shuffle();
+            deck = Deck.GenerateMultipleDecks(numberOfDecks);
+            var rng = new Random();
+            deck = deck.OrderBy(_ => rng.Next()).ToList();
         }
 
         public Dealer GetDealer() => dealer;
@@ -38,7 +47,12 @@ namespace WinFormsApp1.classes
 
         public Card DealCardToPlayer(int index)
         {
-            Card card = deck.DrawCard();
+            if (deck.Count == 0)
+            {
+                ShuffleDeck();
+            }
+            Card card = deck[0];
+            deck.RemoveAt(0);
             players[index].ReceiveCard(card);
             return card;
         }
@@ -47,30 +61,50 @@ namespace WinFormsApp1.classes
         public Card DealDealerFirstCard()
         {
 
-                Card card = deck.DrawCard();
-                dealer.ReceiveCard(card);
-                // 第一张牌为明牌
-                isDealerSecondCardHidden = false;
-                return card;
+            Card card = deck[0];
+            deck.RemoveAt(0);
+            dealer.ReceiveCard(card);
+            // 第一张牌为明牌
+            isDealerSecondCardHidden = false;
+            return card;
 
         }
 
         // 发牌给庄家：第二张牌（暗牌）
         public Card DealDealerSecondCard()
         {
-                Card card = deck.DrawCard();
-                dealer.ReceiveCard(card);
-                // 第二张牌设置为隐藏
-                isDealerSecondCardHidden = true;
-                return card;
+            Card card = deck[0];
+            deck.RemoveAt(0);
+            dealer.ReceiveCard(card);
+            // 第二张牌设置为隐藏
+            isDealerSecondCardHidden = true;
+            return card;
 
         }
 
         public Card DealExtraDealerCard()
         {
-            Card card = deck.DrawCard();
+            Card card = deck[0];
+            deck.RemoveAt(0);
             dealer.ReceiveCard(card);  // 发牌到庄家手上
             return card;
+        }
+
+        public void RestartGame()
+        {
+            // 重新初始化玩家和庄家的手牌
+            foreach (var player in players)
+            {
+                player.ResetHand();  // 假设Player类有ClearHand方法，用于清空手牌
+            }
+            dealer.ResetHand();  // 假设Dealer类有ClearHand方法，用于清空庄家手牌
+
+            // 重置庄家的第二张牌是否隐藏
+            isDealerSecondCardHidden = false;
+
+            // 重置发牌轮数
+            currentDealRound = 0;
+
         }
 
 

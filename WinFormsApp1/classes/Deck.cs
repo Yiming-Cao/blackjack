@@ -17,14 +17,8 @@ namespace WinFormsApp1.classes
 
         private void InitializeDeck()
         {
-            cards.Clear();
-            foreach (Suits suit in Enum.GetValues(typeof(Suits)))
-            {
-                foreach (FaceValues faceValue in Enum.GetValues(typeof(FaceValues)))
-                {
-                    cards.Add(new Card(suit, faceValue));
-                }
-            }
+            cards = GenerateStandardDeck();
+
         }
 
         public void Shuffle()
@@ -47,6 +41,30 @@ namespace WinFormsApp1.classes
             Card drawnCard = cards[0];
             cards.RemoveAt(0);
             return drawnCard;
+        }
+
+        // ✅ 静态方法：生成一副标准 52 张牌
+        public static List<Card> GenerateStandardDeck()
+        {
+            List<Card> singleDeck = new List<Card>();
+            foreach (Suits suit in Enum.GetValues(typeof(Suits)))
+            {
+                foreach (FaceValues faceValue in Enum.GetValues(typeof(FaceValues)))
+                {
+                    singleDeck.Add(new Card(suit, faceValue));
+                }
+            }
+            return singleDeck;
+        }
+
+        public static List<Card> GenerateMultipleDecks(int count)
+        {
+            List<Card> combined = new List<Card>();
+            for (int i = 0; i < count; i++)
+            {
+                combined.AddRange(GenerateStandardDeck());
+            }
+            return combined;
         }
     }
 }

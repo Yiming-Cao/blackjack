@@ -36,9 +36,9 @@
             buttonShow = new Button();
             panelPlayer2Cards = new Panel();
             panelDealerCards = new Panel();
-            button6 = new Button();
-            button3 = new Button();
-            button4 = new Button();
+            RestartButton = new Button();
+            Deck2Button = new Button();
+            Deck1Button = new Button();
             panelPlayer3Cards = new Panel();
             panelPlayer1Cards = new Panel();
             panelPlayer4Cards = new Panel();
@@ -115,32 +115,35 @@
             panelDealerCards.Size = new Size(200, 100);
             panelDealerCards.TabIndex = 0;
             // 
-            // button6
+            // RestartButton
             // 
-            button6.Location = new Point(607, 418);
-            button6.Name = "button6";
-            button6.Size = new Size(92, 49);
-            button6.TabIndex = 10;
-            button6.Text = "Restart";
-            button6.UseVisualStyleBackColor = true;
+            RestartButton.Location = new Point(607, 418);
+            RestartButton.Name = "RestartButton";
+            RestartButton.Size = new Size(92, 49);
+            RestartButton.TabIndex = 10;
+            RestartButton.Text = "Restart";
+            RestartButton.UseVisualStyleBackColor = true;
+            RestartButton.Click += RestartButton_Click;
             // 
-            // button3
+            // Deck2Button
             // 
-            button3.Location = new Point(592, 353);
-            button3.Name = "button3";
-            button3.Size = new Size(92, 34);
-            button3.TabIndex = 11;
-            button3.Text = "2 deck";
-            button3.UseVisualStyleBackColor = true;
+            Deck2Button.Location = new Point(592, 353);
+            Deck2Button.Name = "Deck2Button";
+            Deck2Button.Size = new Size(92, 34);
+            Deck2Button.TabIndex = 11;
+            Deck2Button.Text = "2 deck";
+            Deck2Button.UseVisualStyleBackColor = true;
+            Deck2Button.Click += Deck2Button_Click;
             // 
-            // button4
+            // Deck1Button
             // 
-            button4.Location = new Point(592, 312);
-            button4.Name = "button4";
-            button4.Size = new Size(92, 35);
-            button4.TabIndex = 12;
-            button4.Text = "1 deck";
-            button4.UseVisualStyleBackColor = true;
+            Deck1Button.Location = new Point(592, 312);
+            Deck1Button.Name = "Deck1Button";
+            Deck1Button.Size = new Size(92, 35);
+            Deck1Button.TabIndex = 12;
+            Deck1Button.Text = "1 deck";
+            Deck1Button.UseVisualStyleBackColor = true;
+            Deck1Button.Click += Deck1Button_Click;
             // 
             // panelPlayer3Cards
             // 
@@ -292,9 +295,9 @@
             Controls.Add(panelPlayer4Cards);
             Controls.Add(panelPlayer1Cards);
             Controls.Add(panelPlayer3Cards);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button6);
+            Controls.Add(Deck1Button);
+            Controls.Add(Deck2Button);
+            Controls.Add(RestartButton);
             Controls.Add(panelDealerCards);
             Controls.Add(panelPlayer2Cards);
             Controls.Add(buttonShow);
@@ -317,9 +320,9 @@
         private Button buttonShow;
         private Panel panelPlayer2Cards;
         private Panel panelDealerCards;
-        private Button button6;
-        private Button button3;
-        private Button button4;
+        private Button RestartButton;
+        private Button Deck2Button;
+        private Button Deck1Button;
         private Panel panelPlayer3Cards;
         private Panel panelPlayer1Cards;
         private Panel panelPlayer4Cards;

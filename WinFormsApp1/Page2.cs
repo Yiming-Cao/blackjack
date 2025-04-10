@@ -287,5 +287,44 @@ namespace WinFormsApp1
             }
         }
 
+        private void Deck1Button_Click(object sender, EventArgs e)
+        {
+            // 创建游戏实例并设置使用1副牌
+            game.SetDeckCount(1);
+            MessageBox.Show("使用了1副牌！");
+        }
+
+        private void Deck2Button_Click(object sender, EventArgs e)
+        {
+            // 创建游戏实例并设置使用2副牌
+            game.SetDeckCount(2);
+            MessageBox.Show("使用了2副牌！");
+        }
+
+        private void RestartButton_Click(object sender, EventArgs e)
+        {
+            // 清空所有玩家手牌的图片
+            foreach (var panel in new[] { panelPlayer1Cards, panelPlayer2Cards, panelPlayer3Cards, panelPlayer4Cards, panelDealerCards })
+            {
+                // 遍历每个面板中的控件
+                for (int i = panel.Controls.Count - 1; i >= 0; i--) // 从后往前删除
+                {
+                    Control ctrl = panel.Controls[i];
+                    if (ctrl is PictureBox pb)
+                    {
+                        pb.Dispose();  // 移除图片
+                    }
+                }
+            }
+
+            // 清空所有玩家的气泡文字
+            foreach (var label in new[] { labelPlayer1Bubble, labelPlayer2Bubble, labelPlayer3Bubble, labelPlayer4Bubble })
+            {
+                label.Text = string.Empty;
+                label.Visible = false;  // 隐藏气泡
+            }
+            game.RestartGame();
+            MessageBox.Show("游戏已重启！");
+        }
     }
 }
