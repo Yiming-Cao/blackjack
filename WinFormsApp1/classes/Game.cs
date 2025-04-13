@@ -14,6 +14,8 @@ namespace WinFormsApp1.classes
         private bool isDealerSecondCardHidden; // 标记庄家的第二张牌是否隐藏
         private int currentDealRound = 0; // 用于判断发第几轮
         private int numberOfDecks = 1;
+        public int? WinnerIndex { get; private set; } = null;  // 0-3 玩家，4 表示庄家
+        public bool IsGameOver { get; private set; } = false;
 
 
         public Game()
@@ -95,7 +97,7 @@ namespace WinFormsApp1.classes
             // 重新初始化玩家和庄家的手牌
             foreach (var player in players)
             {
-                player.ResetHand();  // 假设Player类有ClearHand方法，用于清空手牌
+                player.ResetHand();  // 假设Player类有ClearHand方法，用于清空手牌 
             }
             dealer.ResetHand();  // 假设Dealer类有ClearHand方法，用于清空庄家手牌
 
@@ -107,6 +109,18 @@ namespace WinFormsApp1.classes
 
         }
 
+        public void SetWinner(int index)
+        {
+            WinnerIndex = index;
+            IsGameOver = true;
+        }
+
+        public string GetWinnerName()
+        {
+            if (WinnerIndex == -1)
+                return "Push（No Winner）";
+            return WinnerIndex == 4 ? "Dealer" : $"Player {WinnerIndex + 1}";
+        }
 
         // 提供庄家手牌数
         public int DealerCardCount() => dealer.Hand.Count;

@@ -32,8 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Page2));
             pictureBox1 = new PictureBox();
             buttonShuffle = new Button();
-            buttonDeal = new Button();
-            buttonShow = new Button();
+            buttonWinnerDealer = new Button();
+            buttonSet = new Button();
             panelPlayer2Cards = new Panel();
             panelDealerCards = new Panel();
             RestartButton = new Button();
@@ -53,6 +53,16 @@
             labelPlayer2Bubble = new Label();
             labelPlayer3Bubble = new Label();
             labelPlayer4Bubble = new Label();
+            buttonWinner1 = new Button();
+            buttonWinner2 = new Button();
+            buttonWinner3 = new Button();
+            buttonWinner4 = new Button();
+            labelScore1 = new Label();
+            labelScore2 = new Label();
+            labelScore3 = new Label();
+            labelScore4 = new Label();
+            labelScoreDealer = new Label();
+            buttonPush = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -60,7 +70,7 @@
             // 
             pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(3, 3);
+            pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(714, 402);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -77,23 +87,26 @@
             buttonShuffle.UseVisualStyleBackColor = true;
             buttonShuffle.Click += buttonShuffle_Click;
             // 
-            // buttonDeal
+            // buttonWinnerDealer
             // 
-            buttonDeal.Location = new Point(150, 418);
-            buttonDeal.Name = "buttonDeal";
-            buttonDeal.Size = new Size(92, 49);
-            buttonDeal.TabIndex = 7;
-            buttonDeal.Text = "Deal";
-            buttonDeal.UseVisualStyleBackColor = true;
+            buttonWinnerDealer.Location = new Point(282, 418);
+            buttonWinnerDealer.Name = "buttonWinnerDealer";
+            buttonWinnerDealer.Size = new Size(77, 49);
+            buttonWinnerDealer.TabIndex = 7;
+            buttonWinnerDealer.Text = "Dealer Win";
+            buttonWinnerDealer.UseVisualStyleBackColor = true;
+            buttonWinnerDealer.Visible = false;
+            buttonWinnerDealer.Click += buttonWinnerDealer_Click;
             // 
-            // buttonShow
+            // buttonSet
             // 
-            buttonShow.Location = new Point(495, 418);
-            buttonShow.Name = "buttonShow";
-            buttonShow.Size = new Size(92, 49);
-            buttonShow.TabIndex = 8;
-            buttonShow.Text = "Show";
-            buttonShow.UseVisualStyleBackColor = true;
+            buttonSet.Location = new Point(495, 418);
+            buttonSet.Name = "buttonSet";
+            buttonSet.Size = new Size(92, 49);
+            buttonSet.TabIndex = 8;
+            buttonSet.Text = "Set Winner";
+            buttonSet.UseVisualStyleBackColor = true;
+            buttonSet.Click += buttonSet_Click;
             // 
             // panelPlayer2Cards
             // 
@@ -180,7 +193,7 @@
             // 
             // buttonDeal1
             // 
-            buttonDeal1.Location = new Point(88, 248);
+            buttonDeal1.Location = new Point(54, 248);
             buttonDeal1.Name = "buttonDeal1";
             buttonDeal1.Size = new Size(75, 23);
             buttonDeal1.TabIndex = 16;
@@ -190,7 +203,7 @@
             // 
             // buttonDeal2
             // 
-            buttonDeal2.Location = new Point(233, 136);
+            buttonDeal2.Location = new Point(201, 136);
             buttonDeal2.Name = "buttonDeal2";
             buttonDeal2.Size = new Size(75, 23);
             buttonDeal2.TabIndex = 17;
@@ -200,7 +213,7 @@
             // 
             // buttonDeal3
             // 
-            buttonDeal3.Location = new Point(410, 136);
+            buttonDeal3.Location = new Point(377, 136);
             buttonDeal3.Name = "buttonDeal3";
             buttonDeal3.Size = new Size(75, 23);
             buttonDeal3.TabIndex = 18;
@@ -210,7 +223,7 @@
             // 
             // buttonDeal4
             // 
-            buttonDeal4.Location = new Point(546, 248);
+            buttonDeal4.Location = new Point(516, 248);
             buttonDeal4.Name = "buttonDeal4";
             buttonDeal4.Size = new Size(75, 23);
             buttonDeal4.TabIndex = 19;
@@ -230,9 +243,9 @@
             // 
             // buttonShowDealerCard
             // 
-            buttonShowDealerCard.Location = new Point(311, 418);
+            buttonShowDealerCard.Location = new Point(145, 418);
             buttonShowDealerCard.Name = "buttonShowDealerCard";
-            buttonShowDealerCard.Size = new Size(103, 49);
+            buttonShowDealerCard.Size = new Size(92, 49);
             buttonShowDealerCard.TabIndex = 21;
             buttonShowDealerCard.Text = "SeeDealerCard";
             buttonShowDealerCard.UseVisualStyleBackColor = true;
@@ -241,7 +254,7 @@
             // labelPlayer1Bubble
             // 
             labelPlayer1Bubble.AutoSize = true;
-            labelPlayer1Bubble.Location = new Point(101, 124);
+            labelPlayer1Bubble.Location = new Point(68, 133);
             labelPlayer1Bubble.Name = "labelPlayer1Bubble";
             labelPlayer1Bubble.Size = new Size(38, 15);
             labelPlayer1Bubble.TabIndex = 22;
@@ -251,7 +264,7 @@
             // labelPlayer2Bubble
             // 
             labelPlayer2Bubble.AutoSize = true;
-            labelPlayer2Bubble.Location = new Point(270, 20);
+            labelPlayer2Bubble.Location = new Point(217, 20);
             labelPlayer2Bubble.Name = "labelPlayer2Bubble";
             labelPlayer2Bubble.Size = new Size(38, 15);
             labelPlayer2Bubble.TabIndex = 23;
@@ -261,7 +274,7 @@
             // labelPlayer3Bubble
             // 
             labelPlayer3Bubble.AutoSize = true;
-            labelPlayer3Bubble.Location = new Point(410, 20);
+            labelPlayer3Bubble.Location = new Point(389, 20);
             labelPlayer3Bubble.Name = "labelPlayer3Bubble";
             labelPlayer3Bubble.Size = new Size(38, 15);
             labelPlayer3Bubble.TabIndex = 24;
@@ -271,17 +284,132 @@
             // labelPlayer4Bubble
             // 
             labelPlayer4Bubble.AutoSize = true;
-            labelPlayer4Bubble.Location = new Point(583, 133);
+            labelPlayer4Bubble.Location = new Point(527, 133);
             labelPlayer4Bubble.Name = "labelPlayer4Bubble";
             labelPlayer4Bubble.Size = new Size(38, 15);
             labelPlayer4Bubble.TabIndex = 25;
             labelPlayer4Bubble.Text = "label4";
             labelPlayer4Bubble.Visible = false;
             // 
+            // buttonWinner1
+            // 
+            buttonWinner1.Location = new Point(135, 248);
+            buttonWinner1.Name = "buttonWinner1";
+            buttonWinner1.Size = new Size(47, 23);
+            buttonWinner1.TabIndex = 26;
+            buttonWinner1.Text = "Win";
+            buttonWinner1.UseVisualStyleBackColor = true;
+            buttonWinner1.Visible = false;
+            buttonWinner1.Click += buttonWinner1_Click;
+            // 
+            // buttonWinner2
+            // 
+            buttonWinner2.Location = new Point(282, 135);
+            buttonWinner2.Name = "buttonWinner2";
+            buttonWinner2.Size = new Size(50, 23);
+            buttonWinner2.TabIndex = 27;
+            buttonWinner2.Text = "Win";
+            buttonWinner2.UseVisualStyleBackColor = true;
+            buttonWinner2.Visible = false;
+            buttonWinner2.Click += buttonWinner2_Click;
+            // 
+            // buttonWinner3
+            // 
+            buttonWinner3.Location = new Point(458, 136);
+            buttonWinner3.Name = "buttonWinner3";
+            buttonWinner3.Size = new Size(46, 23);
+            buttonWinner3.TabIndex = 28;
+            buttonWinner3.Text = "Win";
+            buttonWinner3.UseVisualStyleBackColor = true;
+            buttonWinner3.Visible = false;
+            buttonWinner3.Click += buttonWinner3_Click;
+            // 
+            // buttonWinner4
+            // 
+            buttonWinner4.Location = new Point(607, 248);
+            buttonWinner4.Name = "buttonWinner4";
+            buttonWinner4.Size = new Size(50, 23);
+            buttonWinner4.TabIndex = 29;
+            buttonWinner4.Text = "Win";
+            buttonWinner4.UseVisualStyleBackColor = true;
+            buttonWinner4.Visible = false;
+            buttonWinner4.Click += buttonWinner4_Click;
+            // 
+            // labelScore1
+            // 
+            labelScore1.AutoSize = true;
+            labelScore1.Location = new Point(135, 133);
+            labelScore1.Name = "labelScore1";
+            labelScore1.Size = new Size(35, 15);
+            labelScore1.TabIndex = 30;
+            labelScore1.Text = "point";
+            labelScore1.Visible = false;
+            // 
+            // labelScore2
+            // 
+            labelScore2.AutoSize = true;
+            labelScore2.Location = new Point(294, 20);
+            labelScore2.Name = "labelScore2";
+            labelScore2.Size = new Size(35, 15);
+            labelScore2.TabIndex = 31;
+            labelScore2.Text = "point";
+            labelScore2.Visible = false;
+            // 
+            // labelScore3
+            // 
+            labelScore3.AutoSize = true;
+            labelScore3.Location = new Point(448, 20);
+            labelScore3.Name = "labelScore3";
+            labelScore3.Size = new Size(35, 15);
+            labelScore3.TabIndex = 32;
+            labelScore3.Text = "point";
+            labelScore3.Visible = false;
+            // 
+            // labelScore4
+            // 
+            labelScore4.AutoSize = true;
+            labelScore4.Location = new Point(607, 133);
+            labelScore4.Name = "labelScore4";
+            labelScore4.Size = new Size(35, 15);
+            labelScore4.TabIndex = 33;
+            labelScore4.Text = "point";
+            labelScore4.Visible = false;
+            // 
+            // labelScoreDealer
+            // 
+            labelScoreDealer.AutoSize = true;
+            labelScoreDealer.Location = new Point(414, 254);
+            labelScoreDealer.Name = "labelScoreDealer";
+            labelScoreDealer.Size = new Size(35, 15);
+            labelScoreDealer.TabIndex = 34;
+            labelScoreDealer.Text = "point";
+            labelScoreDealer.Visible = false;
+            // 
+            // buttonPush
+            // 
+            buttonPush.Location = new Point(380, 418);
+            buttonPush.Name = "buttonPush";
+            buttonPush.Size = new Size(72, 49);
+            buttonPush.TabIndex = 35;
+            buttonPush.Text = "Push";
+            buttonPush.UseVisualStyleBackColor = true;
+            buttonPush.Visible = false;
+            buttonPush.Click += buttonPush_Click;
+            // 
             // Page2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(buttonPush);
+            Controls.Add(labelScoreDealer);
+            Controls.Add(labelScore4);
+            Controls.Add(labelScore3);
+            Controls.Add(labelScore2);
+            Controls.Add(labelScore1);
+            Controls.Add(buttonWinner4);
+            Controls.Add(buttonWinner3);
+            Controls.Add(buttonWinner2);
+            Controls.Add(buttonWinner1);
             Controls.Add(labelPlayer4Bubble);
             Controls.Add(labelPlayer3Bubble);
             Controls.Add(labelPlayer2Bubble);
@@ -300,8 +428,8 @@
             Controls.Add(RestartButton);
             Controls.Add(panelDealerCards);
             Controls.Add(panelPlayer2Cards);
-            Controls.Add(buttonShow);
-            Controls.Add(buttonDeal);
+            Controls.Add(buttonSet);
+            Controls.Add(buttonWinnerDealer);
             Controls.Add(buttonShuffle);
             Controls.Add(pictureBox1);
             Name = "Page2";
@@ -316,8 +444,8 @@
 
         private PictureBox pictureBox1;
         private Button buttonShuffle;
-        private Button buttonDeal;
-        private Button buttonShow;
+        private Button buttonWinnerDealer;
+        private Button buttonSet;
         private Panel panelPlayer2Cards;
         private Panel panelDealerCards;
         private Button RestartButton;
@@ -337,5 +465,15 @@
         private Label labelPlayer2Bubble;
         private Label labelPlayer3Bubble;
         private Label labelPlayer4Bubble;
+        private Button buttonWinner1;
+        private Button buttonWinner2;
+        private Button buttonWinner3;
+        private Button buttonWinner4;
+        private Label labelScore1;
+        private Label labelScore2;
+        private Label labelScore3;
+        private Label labelScore4;
+        private Label labelScoreDealer;
+        private Button buttonPush;
     }
 }

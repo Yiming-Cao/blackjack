@@ -102,6 +102,8 @@ namespace WinFormsApp1
                 decisionTimer.Start(); // 开始计时，2 秒后触发气泡
             }
 
+            ShowAllScores();
+
         }
 
 
@@ -177,6 +179,7 @@ namespace WinFormsApp1
                 Card c = game.DealDealerFirstCard();
                 if (c != null)
                     ShowCardInPanel(c, panelDealerCards, 0);
+                ShowAllScores();
             }
             else if (dealerCount == 1)
             {
@@ -190,6 +193,7 @@ namespace WinFormsApp1
                 {
                     decisionTimer.Start(); // 所有人都有两张牌了，开始显示 Hit/Stand
                 }
+                ShowAllScores();
             }
             else
             {
@@ -197,6 +201,7 @@ namespace WinFormsApp1
                 Card c = game.DealExtraDealerCard();
                 if (c != null)
                     ShowCardInPanel(c, panelDealerCards, dealerCount);
+                ShowAllScores();
             }
         }
 
@@ -291,40 +296,134 @@ namespace WinFormsApp1
         {
             // 创建游戏实例并设置使用1副牌
             game.SetDeckCount(1);
-            MessageBox.Show("使用了1副牌！");
+            MessageBox.Show("Using 1 deck！");
         }
 
         private void Deck2Button_Click(object sender, EventArgs e)
         {
             // 创建游戏实例并设置使用2副牌
             game.SetDeckCount(2);
-            MessageBox.Show("使用了2副牌！");
+            MessageBox.Show("Using 2 deck！");
+        }
+
+        private void ShowAllScores()
+        {
+            labelScore1.Text = $"{game.GetPlayer(0).GetHandValue()}";
+            labelScore2.Text = $"{game.GetPlayer(1).GetHandValue()}";
+            labelScore3.Text = $"{game.GetPlayer(2).GetHandValue()}";
+            labelScore4.Text = $"{game.GetPlayer(3).GetHandValue()}";
+            labelScoreDealer.Text = $"{game.GetDealer().GetHandValue()}";
+
+            labelScore1.Visible = true;
+            labelScore2.Visible = true;
+            labelScore3.Visible = true;
+            labelScore4.Visible = true;
+            labelScoreDealer.Visible = true;
+        }
+
+
+        private void buttonSet_Click(object sender, EventArgs e)
+        {
+            ShowWinnerButtons();  // 显示所有“胜出”按钮
+        }
+
+        private void ShowWinnerButtons()
+        {
+            buttonWinner1.Visible = true;
+            buttonWinner2.Visible = true;
+            buttonWinner3.Visible = true;
+            buttonWinner4.Visible = true;
+            buttonWinnerDealer.Visible = true;
+            buttonPush.Visible = true;
+        }
+
+        private void buttonWinner1_Click(object sender, EventArgs e)
+        {
+            EndGameWithWinner(0);
+        }
+
+        private void buttonWinner2_Click(object sender, EventArgs e)
+        {
+            EndGameWithWinner(1);
+        }
+
+        private void buttonWinner3_Click(object sender, EventArgs e)
+        {
+            EndGameWithWinner(2);
+        }
+
+        private void buttonWinner4_Click(object sender, EventArgs e)
+        {
+            EndGameWithWinner(3);
+        }
+
+        private void buttonWinnerDealer_Click(object sender, EventArgs e)
+        {
+            EndGameWithWinner(4);
+        }
+
+        private void buttonPush_Click(object sender, EventArgs e)
+        {
+            EndGameWithWinner(-1); 
+        }
+
+        private void EndGameWithWinner(int index)
+        {
+            game.SetWinner(index);  // 通知游戏类谁胜出
+
+            string winnerName = game.GetWinnerName();
+            MessageBox.Show($"{winnerName} ！Win !", "Result");
+
+            // 隐藏所有胜出按钮
+            buttonWinner1.Visible = false;
+            buttonWinner2.Visible = false;
+            buttonWinner3.Visible = false;
+            buttonWinner4.Visible = false;
+            buttonWinnerDealer.Visible = false;
+            buttonPush.Visible = false;
+
+            // 其他逻辑：禁用按钮、保存记录等
+            buttonSet.Enabled = false;
         }
 
         private void RestartButton_Click(object sender, EventArgs e)
         {
-            // 清空所有玩家手牌的图片
+            // Clear all player card images  
             foreach (var panel in new[] { panelPlayer1Cards, panelPlayer2Cards, panelPlayer3Cards, panelPlayer4Cards, panelDealerCards })
             {
-                // 遍历每个面板中的控件
-                for (int i = panel.Controls.Count - 1; i >= 0; i--) // 从后往前删除
+                // Iterate through each control in the panel  
+                for (int i = panel.Controls.Count - 1; i >= 0; i--) // Remove from back to front  
                 {
                     Control ctrl = panel.Controls[i];
                     if (ctrl is PictureBox pb)
                     {
-                        pb.Dispose();  // 移除图片
+                        pb.Dispose();  // Remove image  
                     }
                 }
             }
 
-            // 清空所有玩家的气泡文字
+            // Clear all player bubble text  
             foreach (var label in new[] { labelPlayer1Bubble, labelPlayer2Bubble, labelPlayer3Bubble, labelPlayer4Bubble })
             {
                 label.Text = string.Empty;
-                label.Visible = false;  // 隐藏气泡
+                label.Visible = false;  // Hide bubble  
             }
+            buttonSet.Enabled = true;
+            labelScore1.Text = "";
+            labelScore2.Text = "";
+            labelScore3.Text = "";
+            labelScore4.Text = "";
+            labelScoreDealer.Text = "";
+
+            labelScore1.Visible = false;
+            labelScore2.Visible = false;
+            labelScore3.Visible = false;
+            labelScore4.Visible = false;
+            labelScoreDealer.Visible = false;
             game.RestartGame();
-            MessageBox.Show("游戏已重启！");
+            MessageBox.Show("Game restart！");
         }
+
+
     }
 }
