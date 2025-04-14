@@ -16,6 +16,8 @@ namespace WinFormsApp1.classes
         private int numberOfDecks = 1;
         public int? WinnerIndex { get; private set; } = null;  // 0-3 玩家，4 表示庄家
         public bool IsGameOver { get; private set; } = false;
+        private List<int> winnerIndices = new List<int>();
+        public Score ScoreSystem = new Score();
 
 
         public Game()
@@ -109,17 +111,23 @@ namespace WinFormsApp1.classes
 
         }
 
-        public void SetWinner(int index)
+        public void SetMultipleWinners(List<int> indices)
         {
-            WinnerIndex = index;
-            IsGameOver = true;
+            winnerIndices = new List<int>(indices);
         }
 
-        public string GetWinnerName()
+        public string GetMultipleWinnerNames()
         {
-            if (WinnerIndex == -1)
-                return "Push（No Winner）";
-            return WinnerIndex == 4 ? "Dealer" : $"Player {WinnerIndex + 1}";
+            List<string> names = new List<string>();
+            foreach (int i in winnerIndices)
+            {
+                if (i >= 0 && i < players.Length) // Corrected from players.Count to players.Length
+                    names.Add($"Player {i + 1}");
+                else if (i == players.Length) // Corrected from players.Count to players.Length
+                    names.Add("Dealer");
+            }
+
+            return string.Join(" & ", names);
         }
 
         // 提供庄家手牌数

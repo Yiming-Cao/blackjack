@@ -20,6 +20,8 @@ namespace WinFormsApp1
         private int shuffleFrame = 0;
         private PictureBox shuffleBox;
         private System.Windows.Forms.Timer decisionTimer;
+        private List<int> selectedWinners = new List<int>();
+
 
 
 
@@ -32,7 +34,7 @@ namespace WinFormsApp1
         private void Page2_Load(object sender, EventArgs e)
         {
             decisionTimer = new System.Windows.Forms.Timer();
-            decisionTimer.Interval = 2000;
+            decisionTimer.Interval = 1000;
             decisionTimer.Tick += DecisionTimer_Tick;
 
         }
@@ -153,21 +155,33 @@ namespace WinFormsApp1
         private void buttonDeal1_Click(object sender, EventArgs e)
         {
             DealToPlayer(0, panelPlayer1Cards);
+
+            bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Player1");
+            UpdateScoreDisplay(isCorrect);
         }
 
         private void buttonDeal2_Click(object sender, EventArgs e)
         {
             DealToPlayer(1, panelPlayer2Cards);
+
+            bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Player2");
+            UpdateScoreDisplay(isCorrect);
         }
 
         private void buttonDeal3_Click(object sender, EventArgs e)
         {
             DealToPlayer(2, panelPlayer3Cards);
+
+            bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Player3");
+            UpdateScoreDisplay(isCorrect);
         }
 
         private void buttonDeal4_Click(object sender, EventArgs e)
         {
             DealToPlayer(3, panelPlayer4Cards);
+
+            bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Player4");
+            UpdateScoreDisplay(isCorrect);
         }
 
         private void buttonDealDealer_Click(object sender, EventArgs e)
@@ -180,6 +194,9 @@ namespace WinFormsApp1
                 if (c != null)
                     ShowCardInPanel(c, panelDealerCards, 0);
                 ShowAllScores();
+
+                bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Dealer_First");
+                UpdateScoreDisplay(isCorrect);
             }
             else if (dealerCount == 1)
             {
@@ -194,6 +211,9 @@ namespace WinFormsApp1
                     decisionTimer.Start(); // 所有人都有两张牌了，开始显示 Hit/Stand
                 }
                 ShowAllScores();
+
+                bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Dealer_Second");
+                UpdateScoreDisplay(isCorrect);
             }
             else
             {
@@ -224,6 +244,9 @@ namespace WinFormsApp1
         {
             StartShuffleAnimation(); // 播放动画
             game.ShuffleDeck();      // 执行洗牌逻辑
+
+            bool isCorrect = game.ScoreSystem.ValidateStep("Shuffle");
+            UpdateScoreDisplay(isCorrect);
         }
 
         private void ShowPlayerDecision(int index, string message)
@@ -296,14 +319,20 @@ namespace WinFormsApp1
         {
             // 创建游戏实例并设置使用1副牌
             game.SetDeckCount(1);
-            MessageBox.Show("Using 1 deck！");
+            MessageBox.Show("Using 1 deck !");
+
+            bool isCorrect = game.ScoreSystem.ValidateStep("ChooseDeckCount");
+            UpdateScoreDisplay(isCorrect);
         }
 
         private void Deck2Button_Click(object sender, EventArgs e)
         {
             // 创建游戏实例并设置使用2副牌
             game.SetDeckCount(2);
-            MessageBox.Show("Using 2 deck！");
+            MessageBox.Show("Using 2 deck !");
+
+            bool isCorrect = game.ScoreSystem.ValidateStep("ChooseDeckCount");
+            UpdateScoreDisplay(isCorrect);
         }
 
         private void ShowAllScores()
@@ -335,56 +364,101 @@ namespace WinFormsApp1
             buttonWinner4.Visible = true;
             buttonWinnerDealer.Visible = true;
             buttonPush.Visible = true;
+            buttonConfirmWinners.Visible = true;
         }
 
         private void buttonWinner1_Click(object sender, EventArgs e)
         {
-            EndGameWithWinner(0);
+            ToggleWinner(0, buttonWinner1);
         }
 
         private void buttonWinner2_Click(object sender, EventArgs e)
         {
-            EndGameWithWinner(1);
+            ToggleWinner(1, buttonWinner2);
         }
 
         private void buttonWinner3_Click(object sender, EventArgs e)
         {
-            EndGameWithWinner(2);
+            ToggleWinner(2, buttonWinner3);
         }
 
         private void buttonWinner4_Click(object sender, EventArgs e)
         {
-            EndGameWithWinner(3);
+            ToggleWinner(3, buttonWinner4);
         }
 
         private void buttonWinnerDealer_Click(object sender, EventArgs e)
         {
-            EndGameWithWinner(4);
+            ToggleWinner(4, buttonWinnerDealer);
         }
 
         private void buttonPush_Click(object sender, EventArgs e)
         {
-            EndGameWithWinner(-1); 
+            ToggleWinner(-1, buttonPush);
         }
 
-        private void EndGameWithWinner(int index)
+        private void ToggleWinner(int index, Button button)
         {
-            game.SetWinner(index);  // 通知游戏类谁胜出
+            if (selectedWinners.Contains(index))
+            {
+                selectedWinners.Remove(index);
+                button.BackColor = SystemColors.Control;  // 恢复原色
+            }
+            else
+            {
+                selectedWinners.Add(index);
+                button.BackColor = Color.LightGreen;  // 标记选中
+            }
+        }
 
-            string winnerName = game.GetWinnerName();
-            MessageBox.Show($"{winnerName} ！Win !", "Result");
+        private void buttonConfirmWinners_Click(object sender, EventArgs e)
+        {
+            if (selectedWinners.Count == 0)
+            {
+                MessageBox.Show("Choose at least one winner!");
+                return;
+            }
 
-            // 隐藏所有胜出按钮
+            if (selectedWinners.Contains(-1))
+            {
+                MessageBox.Show("Push（No winner）!", "Result");
+
+                // 清理 UI 和状态
+                selectedWinners.Clear();
+                ResetWinnerButtons();
+                buttonSet.Enabled = false;
+                return;
+            }
+
+            game.SetMultipleWinners(selectedWinners);
+            string winnerNames = game.GetMultipleWinnerNames();
+            MessageBox.Show($"{winnerNames} Win!", "Result");
+
+            // 清除UI和状态
+            selectedWinners.Clear();
+            ResetWinnerButtons();
+
+            buttonSet.Enabled = false;
+        }
+
+        private void ResetWinnerButtons()
+        {
+            buttonWinner1.BackColor = SystemColors.Control;
+            buttonWinner2.BackColor = SystemColors.Control;
+            buttonWinner3.BackColor = SystemColors.Control;
+            buttonWinner4.BackColor = SystemColors.Control;
+            buttonWinnerDealer.BackColor = SystemColors.Control;
+            buttonPush.BackColor = SystemColors.Control;
+
             buttonWinner1.Visible = false;
             buttonWinner2.Visible = false;
             buttonWinner3.Visible = false;
             buttonWinner4.Visible = false;
             buttonWinnerDealer.Visible = false;
             buttonPush.Visible = false;
-
-            // 其他逻辑：禁用按钮、保存记录等
-            buttonSet.Enabled = false;
+            buttonConfirmWinners.Visible = false;
         }
+
 
         private void RestartButton_Click(object sender, EventArgs e)
         {
@@ -421,8 +495,22 @@ namespace WinFormsApp1
             labelScore4.Visible = false;
             labelScoreDealer.Visible = false;
             game.RestartGame();
-            MessageBox.Show("Game restart！");
+            MessageBox.Show("Game restart !");
         }
+
+        private void UpdateScoreDisplay(bool isCorrect)
+        {
+            labelScore.Text = "Score: " + game.ScoreSystem.TotalScore;
+
+            if (isCorrect)
+                labelTip.Text = "✔right step +1 ";
+            else
+                labelTip.Text = "✘wrong step -1 ";
+
+            labelTip.Visible = true;  // 显示提示
+            labelScore.Visible = true;
+        }
+
 
 
     }

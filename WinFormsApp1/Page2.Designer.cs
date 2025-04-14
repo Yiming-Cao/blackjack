@@ -63,6 +63,9 @@
             labelScore4 = new Label();
             labelScoreDealer = new Label();
             buttonPush = new Button();
+            buttonConfirmWinners = new Button();
+            labelScore = new Label();
+            labelTip = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -396,10 +399,44 @@
             buttonPush.Visible = false;
             buttonPush.Click += buttonPush_Click;
             // 
+            // buttonConfirmWinners
+            // 
+            buttonConfirmWinners.Location = new Point(311, 186);
+            buttonConfirmWinners.Name = "buttonConfirmWinners";
+            buttonConfirmWinners.Size = new Size(116, 46);
+            buttonConfirmWinners.TabIndex = 36;
+            buttonConfirmWinners.Text = "Confirm Winners";
+            buttonConfirmWinners.UseVisualStyleBackColor = true;
+            buttonConfirmWinners.Visible = false;
+            buttonConfirmWinners.Click += buttonConfirmWinners_Click;
+            // 
+            // labelScore
+            // 
+            labelScore.AutoSize = true;
+            labelScore.Location = new Point(635, 20);
+            labelScore.Name = "labelScore";
+            labelScore.Size = new Size(36, 15);
+            labelScore.TabIndex = 37;
+            labelScore.Text = "Score";
+            labelScore.Visible = false;
+            // 
+            // labelTip
+            // 
+            labelTip.AutoSize = true;
+            labelTip.Location = new Point(623, 58);
+            labelTip.Name = "labelTip";
+            labelTip.Size = new Size(48, 15);
+            labelTip.TabIndex = 38;
+            labelTip.Text = "labelTip";
+            labelTip.Visible = false;
+            // 
             // Page2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(labelTip);
+            Controls.Add(labelScore);
+            Controls.Add(buttonConfirmWinners);
             Controls.Add(buttonPush);
             Controls.Add(labelScoreDealer);
             Controls.Add(labelScore4);
@@ -475,5 +512,8 @@
         private Label labelScore4;
         private Label labelScoreDealer;
         private Button buttonPush;
+        private Button buttonConfirmWinners;
+        private Label labelScore;
+        private Label labelTip;
     }
 }
