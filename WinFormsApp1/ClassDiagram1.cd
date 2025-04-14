@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="WinFormsApp1.Properties.Resources">
+    <Position X="0.5" Y="6" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QhIELQAAAAAISBZTBgABEgAoU7wQNCmKkEAQAACAIIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.Properties.Settings">
+    <Position X="17" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.classes.Card">
+    <Position X="6.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAABQAAAAAAAEAAAABAAACAAAAAgAAAAgACAAAAQ=</HashCode>
+      <FileName>classes\Card.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.classes.Dealer">
+    <Position X="7.75" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>classes\Dealer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.classes.Deck">
+    <Position X="8.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>CAAABIAAAAAAAAAAAAgAAAAAEAAAAAAAAAAAAAAAEBA=</HashCode>
+      <FileName>classes\Deck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.classes.Game">
+    <Position X="12.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAIBFAwAAsEAAARgABAFEAAIQAAAACEgAA=</HashCode>
+      <FileName>classes\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.classes.Player">
+    <Position X="9.75" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABAgAAAAACAAACgAAAAAAABAABAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>classes\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.classes.Score">
+    <Position X="15" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAABAAAAAAAAAIAAAAAAAAAQCAAAAAIAAA=</HashCode>
+      <FileName>classes\Score.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.classes.User">
+    <Position X="15" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAACQgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>classes\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.Form1">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAAAAAAAACAAAACAAAAAAAAAEQAAABAAAA=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.Page1">
+    <Position X="0.5" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAIAAAAAAAAAABAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.Page2">
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gEAAAAABgCUAAIAACACKAAMLBAAEAAAAAoEIMAhAAGQ=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormsApp1.Program">
+    <Position X="17" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="WinFormsApp1.classes.Suits">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAQAAAAAAAAAEAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>classes\Card.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WinFormsApp1.classes.FaceValues">
+    <Position X="6.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABABAAJAiAAAAAABIAAAAAAAAABAQgBAAAg=</HashCode>
+      <FileName>classes\Card.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
