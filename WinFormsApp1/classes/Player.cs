@@ -9,6 +9,8 @@ namespace WinFormsApp1.classes
         public int Score => CalculateScore();
         public bool IsBust => Score > 21;
 
+        public bool IsDone { get; set; } = false;
+
         public Player()
         {
             Hand = new List<Card>();
@@ -17,6 +19,7 @@ namespace WinFormsApp1.classes
         public void ResetHand()
         {
             Hand.Clear();
+            IsDone = false; // ✅ 每局开始前重置
         }
 
         public void ReceiveCard(Card card)
@@ -54,6 +57,7 @@ namespace WinFormsApp1.classes
         {
             return Hand.Sum(card => card.Value);
         }
+     
 
     }
 }

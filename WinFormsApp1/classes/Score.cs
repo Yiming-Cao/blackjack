@@ -8,6 +8,7 @@ namespace WinFormsApp1.classes
 {
     public class Score
     {
+        public bool IsFreeHitPhase = false;
         private List<string> correctSteps = new List<string>
     {
         "ChooseDeckCount",
@@ -53,6 +54,41 @@ namespace WinFormsApp1.classes
         {
             currentStepIndex = 0;
             TotalScore = 0;
+        }
+
+        public bool JudgePlayerHit(int playerHandValue)
+        {
+            if (playerHandValue < 17)
+            {
+                TotalScore += 1;
+                return true; // 正确 Hit
+            }
+            else
+            {
+                TotalScore -= 1;
+                return false; // 错误 Hit
+            }
+        }
+
+        public bool JudgeDealerDraw(int dealerHandValue, bool allPlayersDone)
+        {
+            if (allPlayersDone == false)
+            {
+                // 玩家未完成操作时庄家就发牌，扣分
+                TotalScore -= 1;
+                return false;
+            }
+
+            if (dealerHandValue < 17)
+            {
+                TotalScore += 1; // 正确 Hit
+                return true;
+            }
+            else
+            {
+                TotalScore -= 1; // 不应该再发了
+                return false;
+            }
         }
     }
 

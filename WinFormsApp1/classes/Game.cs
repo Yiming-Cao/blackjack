@@ -18,6 +18,8 @@ namespace WinFormsApp1.classes
         public bool IsGameOver { get; private set; } = false;
         private List<int> winnerIndices = new List<int>();
         public Score ScoreSystem = new Score();
+        
+
 
 
         public Game()
@@ -49,15 +51,18 @@ namespace WinFormsApp1.classes
         public Dealer GetDealer() => dealer;
         public Player GetPlayer(int index) => players[index];
 
-        public Card DealCardToPlayer(int index)
+        public Card DealCardToPlayer(int index, bool checkScoring = false)
         {
+            int handValue = players[index].GetHandValue();
+
             if (deck.Count == 0)
-            {
                 ShuffleDeck();
-            }
+
             Card card = deck[0];
             deck.RemoveAt(0);
             players[index].ReceiveCard(card);
+
+
             return card;
         }
 
@@ -148,5 +153,16 @@ namespace WinFormsApp1.classes
 
         // 🔹 触发游戏结束时翻开庄家的第二张牌
         public void RevealDealerCard() => isDealerSecondCardHidden = false;
+
+        public bool AreAllPlayersDone()
+        {
+            foreach (var player in players)
+            {
+                int handValue = player.GetHandValue();
+                if (handValue < 17 && !player.IsBust)
+                    return false;
+            }
+            return true;
+        }
     }
 }

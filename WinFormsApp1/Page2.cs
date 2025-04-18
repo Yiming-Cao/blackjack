@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormsApp1.classes;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
+using System.Reflection;
 
 namespace WinFormsApp1
 {
@@ -108,6 +109,39 @@ namespace WinFormsApp1
 
         }
 
+        private void DealAndScorePlayer(int playerIndex, Panel playerPanel)
+        {
+            if (!game.ScoreSystem.IsFreeHitPhase)
+            {
+                // 发牌阶段：判断发牌顺序是否正确
+                DealToPlayer(playerIndex, playerPanel);
+                bool isCorrect = game.ScoreSystem.ValidateStep($"Deal_Player{playerIndex + 1}");
+                UpdateScoreDisplay(isCorrect);
+            }
+            else
+            {
+                // 自由 Hit 阶段：判断是否该 Hit
+                int handValue = game.GetPlayer(playerIndex).GetHandValue();
+                Card card = game.DealCardToPlayer(playerIndex, true);  // true 表示启用“是否应 Hit”的打分逻辑
+                if (card != null)
+                {
+                    ShowCardInPanel(card, playerPanel, game.GetPlayer(playerIndex).Hand.Count - 1);
+                }
+                bool hitCorrectly = game.ScoreSystem.JudgePlayerHit(handValue);
+                UpdateScoreDisplay(hitCorrectly);
+                ShowAllScores();
+                HidePlayerDecision(playerIndex);
+
+                // ✅ 加上这段判断玩家是否结束 Hit
+                int newHandValue = game.GetPlayer(playerIndex).GetHandValue();
+                if (newHandValue >= 17 || newHandValue > 21)
+                {
+                    game.GetPlayer(playerIndex).IsDone = true;
+                }
+            }
+        }
+
+
 
         private void ShowCardInPanel(Card card, Panel panel, int index)
         {
@@ -154,34 +188,22 @@ namespace WinFormsApp1
 
         private void buttonDeal1_Click(object sender, EventArgs e)
         {
-            DealToPlayer(0, panelPlayer1Cards);
-
-            bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Player1");
-            UpdateScoreDisplay(isCorrect);
+            DealAndScorePlayer(0, panelPlayer1Cards);
         }
 
         private void buttonDeal2_Click(object sender, EventArgs e)
         {
-            DealToPlayer(1, panelPlayer2Cards);
-
-            bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Player2");
-            UpdateScoreDisplay(isCorrect);
+            DealAndScorePlayer(1, panelPlayer2Cards);
         }
 
         private void buttonDeal3_Click(object sender, EventArgs e)
         {
-            DealToPlayer(2, panelPlayer3Cards);
-
-            bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Player3");
-            UpdateScoreDisplay(isCorrect);
+            DealAndScorePlayer(2, panelPlayer3Cards);
         }
 
         private void buttonDeal4_Click(object sender, EventArgs e)
         {
-            DealToPlayer(3, panelPlayer4Cards);
-
-            bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Player4");
-            UpdateScoreDisplay(isCorrect);
+            DealAndScorePlayer(3, panelPlayer4Cards);
         }
 
         private void buttonDealDealer_Click(object sender, EventArgs e)
@@ -214,14 +236,34 @@ namespace WinFormsApp1
 
                 bool isCorrect = game.ScoreSystem.ValidateStep("Deal_Dealer_Second");
                 UpdateScoreDisplay(isCorrect);
+                game.ScoreSystem.IsFreeHitPhase = true;
+
             }
             else
             {
-                // ✅ 第三张及之后的牌为明牌
-                Card c = game.DealExtraDealerCard();
-                if (c != null)
-                    ShowCardInPanel(c, panelDealerCards, dealerCount);
-                ShowAllScores();
+                
+                int dealerHandValue = game.GetDealer().GetHandValue();
+                bool allPlayersDone = game.AreAllPlayersDone();
+
+                if (allPlayersDone)
+                {
+                    Card c = game.DealExtraDealerCard(); // 给庄家发牌
+                    if (c != null)
+                    {
+                        ShowCardInPanel(c, panelDealerCards, dealerCount);
+                    }
+
+                    // ✅ 打分逻辑：只在所有玩家都完成后才计算庄家的打分
+                    bool isCorrect = game.ScoreSystem.JudgeDealerDraw(dealerHandValue, allPlayersDone);
+                    UpdateScoreDisplay(isCorrect);
+                    ShowAllScores();
+                }
+                else
+                {
+                    // ❌ 玩家未完成，庄家却抽牌 → 扣分！
+                    bool isCorrect = game.ScoreSystem.JudgeDealerDraw(dealerHandValue, false);
+                    UpdateScoreDisplay(isCorrect);
+                }
             }
         }
 
@@ -312,6 +354,8 @@ namespace WinFormsApp1
                 int total = game.GetPlayer(i).Hand.Sum(card => card.Value);
                 string decision = total < 17 ? "Hit" : "Stand";
                 ShowPlayerDecision(i, decision); // 你之前已有这个方法
+                game.GetPlayer(i).IsDone = true;
+
             }
         }
 
