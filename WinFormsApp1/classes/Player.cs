@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace WinFormsApp1.classes
 {
@@ -8,6 +9,8 @@ namespace WinFormsApp1.classes
         public int Score => CalculateScore();
         public bool IsBust => Score > 21;
 
+        public bool IsDone { get; set; } = false;
+
         public Player()
         {
             Hand = new List<Card>();
@@ -16,6 +19,7 @@ namespace WinFormsApp1.classes
         public void ResetHand()
         {
             Hand.Clear();
+            IsDone = false; 
         }
 
         public void ReceiveCard(Card card)
@@ -48,5 +52,12 @@ namespace WinFormsApp1.classes
                 }
             }
         }
+
+        public int GetHandValue()
+        {
+            return Hand.Sum(card => card.Value);
+        }
+     
+
     }
 }

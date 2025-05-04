@@ -8,7 +8,7 @@
 
             Page1 page1 = new Page1();
             this.Controls.Add(page1);
-            page1.Dock = DockStyle.Fill; // 让 Page1 充满整个窗口
+            page1.Dock = DockStyle.Fill; 
         }
    
         private void button1_Click(object sender, EventArgs e)

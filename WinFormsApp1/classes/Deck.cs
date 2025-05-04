@@ -17,14 +17,8 @@ namespace WinFormsApp1.classes
 
         private void InitializeDeck()
         {
-            cards.Clear();
-            foreach (Suits suit in Enum.GetValues(typeof(Suits)))
-            {
-                foreach (FaceValues faceValue in Enum.GetValues(typeof(FaceValues)))
-                {
-                    cards.Add(new Card(suit, faceValue));
-                }
-            }
+            cards = GenerateStandardDeck();
+
         }
 
         public void Shuffle()
@@ -32,7 +26,7 @@ namespace WinFormsApp1.classes
             for (int i = cards.Count - 1; i > 0; i--)
             {
                 int j = rand.Next(i + 1);
-                (cards[i], cards[j]) = (cards[j], cards[i]); // 交换位置
+                (cards[i], cards[j]) = (cards[j], cards[i]); 
             }
         }
 
@@ -47,6 +41,30 @@ namespace WinFormsApp1.classes
             Card drawnCard = cards[0];
             cards.RemoveAt(0);
             return drawnCard;
+        }
+
+        
+        public static List<Card> GenerateStandardDeck()
+        {
+            List<Card> singleDeck = new List<Card>();
+            foreach (Suits suit in Enum.GetValues(typeof(Suits)))
+            {
+                foreach (FaceValues faceValue in Enum.GetValues(typeof(FaceValues)))
+                {
+                    singleDeck.Add(new Card(suit, faceValue));
+                }
+            }
+            return singleDeck;
+        }
+
+        public static List<Card> GenerateMultipleDecks(int count)
+        {
+            List<Card> combined = new List<Card>();
+            for (int i = 0; i < count; i++)
+            {
+                combined.AddRange(GenerateStandardDeck());
+            }
+            return combined;
         }
     }
 }

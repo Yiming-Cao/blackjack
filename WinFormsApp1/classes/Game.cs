@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
@@ -7,112 +8,205 @@ namespace WinFormsApp1.classes
 {
     public class Game
     {
-        private Deck deck;
-        private Player player;
+        private List<Card> deck;
+        private Player[] players;
         private Dealer dealer;
-        private bool isDealerSecondCardHidden; // 标记庄家的第二张牌是否隐藏
+        private bool isDealerSecondCardHidden; 
+        private int currentDealRound = 0; 
+        private int numberOfDecks = 1;
+        public int? WinnerIndex { get; private set; } = null;  
+        public bool IsGameOver { get; private set; } = false;
+        private List<int> winnerIndices = new List<int>();
+        public Score ScoreSystem = new Score();
+        
+
+
 
         public Game()
         {
-            deck = new Deck();
-            player = new Player();
+            
+            players = new Player[4];
+            for (int i = 0; i < 4; i++)
+            {
+                players[i] = new Player();
+            }
+
             dealer = new Dealer();
-        }
-
-        public void StartGame()
-        {
-            deck.Shuffle();
-            player.ResetHand();
-            dealer.ResetHand();
-            isDealerSecondCardHidden = true; // 游戏开始时隐藏庄家第二张牌
-
-            // 初始发牌
-            player.ReceiveCard(deck.DrawCard());
-            dealer.ReceiveCard(deck.DrawCard());
-            player.ReceiveCard(deck.DrawCard());
-            dealer.ReceiveCard(deck.DrawCard());
+            ShuffleDeck(); // Ensure deck is initialized
 
         }
 
-        public void PlayerHit(Page2 page)
+        public void SetDeckCount(int count)
         {
-            page.DisableHitButton(); // 禁用 Hit 按钮
+            numberOfDecks = count;
+        }
 
-            // 玩家抽一张牌
-            Card newCard = deck.DrawCard();
-            player.ReceiveCard(newCard);
+        public void ShuffleDeck()
+        {
+            deck = Deck.GenerateMultipleDecks(numberOfDecks);
+            var rng = new Random();
+            deck = deck.OrderBy(_ => rng.Next()).ToList();
+        }
+
+        public Dealer GetDealer() => dealer;
+        public Player GetPlayer(int index) => players[index];
+
+        public Card DealCardToPlayer(int index, bool checkScoring = false)
+        {
+            int handValue = players[index].GetHandValue();
+
+            if (deck.Count == 0)
+                ShuffleDeck();
+
+            Card card = deck[0];
+            deck.RemoveAt(0);
+            players[index].ReceiveCard(card);
+
+
+            return card;
+        }
+
+        
+        public Card DealDealerFirstCard()
+        {
+
+            Card card = deck[0];
+            deck.RemoveAt(0);
+            dealer.ReceiveCard(card);
             
+            isDealerSecondCardHidden = false;
+            return card;
 
-            // 检查玩家是否爆牌
-            if (player.IsBust)
+        }
+
+        
+        public Card DealDealerSecondCard()
+        {
+            Card card = deck[0];
+            deck.RemoveAt(0);
+            dealer.ReceiveCard(card);
+            
+            isDealerSecondCardHidden = true;
+            return card;
+
+        }
+
+        public Card DealExtraDealerCard()
+        {
+            Card card = deck[0];
+            deck.RemoveAt(0);
+            dealer.ReceiveCard(card);  
+            return card;
+        }
+
+        public void RestartGame()
+        {
+            
+            foreach (var player in players)
             {
-                MessageBox.Show("Player Busts! Dealer Wins!");
-                RevealDealerCard();
-                EndGame(page);
-                return;
+                player.ResetHand();   
+            }
+            dealer.ResetHand();  
+
+            
+            isDealerSecondCardHidden = false;
+
+            
+            currentDealRound = 0;
+
+            ScoreSystem.IsFreeHitPhase = false;
+
+
+        }
+
+        public void SetMultipleWinners(List<int> indices)
+        {
+            winnerIndices = new List<int>(indices);
+        }
+
+        public string GetMultipleWinnerNames()
+        {
+            List<string> names = new List<string>();
+            foreach (int i in winnerIndices)
+            {
+                if (i >= 0 && i < players.Length) // Corrected from players.Count to players.Length
+                    names.Add($"Player {i + 1}");
+                else if (i == players.Length) // Corrected from players.Count to players.Length
+                    names.Add("Dealer");
             }
 
-            
-
-            page.EnableHitButton(); // 重新启用 Hit 按钮
+            return string.Join(" & ", names);
         }
 
-        public void PlayerStand(Page2 ui)
-        {
-            // 1. 翻开庄家的第二张牌
-            RevealDealerCard();
+        
+        public int DealerCardCount() => dealer.Hand.Count;
 
-            // 2. 让庄家进行回合（自动补牌，直到 >= 17 或者爆牌）
-            DealerTurn(ui);
-
-            // 4. 结束游戏，禁用按钮
-            EndGame(ui);
-        }
-
-        // 结束游戏逻辑
-        private void EndGame(Page2 ui)
-        {
-            ui.DisableAllButtons(); // 统一禁用所有操作按钮
-            RevealDealerCard();
-            string result = GetWinner();
-            MessageBox.Show(result);
-        }
-
-
-
-        public void DealerTurn(Page2 ui)
-        {
-            while (dealer.Score < 17)  // 庄家必须抽牌，直到 17 分或以上
-            {
-                Card dealerCard = deck.DrawCard();
-                dealer.ReceiveCard(dealerCard);
-                // 更新 UI，显示庄家的新牌
-
-                // 如果庄家爆牌，直接结束
-                if (dealer.IsBust)
-                {
-                    MessageBox.Show("Dealer Busts! Player Wins!");
-                    return;
-                }
-            }
-        }
-
-        public string GetWinner()
-        {
-            if (player.IsBust) return "Dealer Wins!";
-            if (dealer.IsBust) return "Player Wins!";
-            if (player.Score > dealer.Score) return "Player Wins!";
-            if (player.Score < dealer.Score) return "Dealer Wins!";
-            return "It's a Tie!";
-        }
-
-        public List<Card> GetPlayerCard() => player.Hand;
-        public List<Card> GetDealerCard() => dealer.Hand;
-
-        // 🔹 让 UI 知道庄家的第二张牌应该被隐藏
+        
         public bool IsDealerSecondCardHidden() => isDealerSecondCardHidden;
 
-        // 🔹 触发游戏结束时翻开庄家的第二张牌
+
+        public bool ShouldAdvanceRound()
+        {
+            return players.All(p => p.Hand.Count > currentDealRound);
+        }
+
+        public bool CanDealMore() => currentDealRound < 1;
+
+        public void AdvanceRound() => currentDealRound++;
+
+        
         public void RevealDealerCard() => isDealerSecondCardHidden = false;
+
+        public bool AreAllPlayersDone()
+        {
+            foreach (var player in players)
+            {
+                int handValue = player.GetHandValue();
+                if (handValue < 17 && !player.IsBust)
+                    return false;
+            }
+            return true;
+        }
+
+        public List<int> GetRecommendedWinners()
+        {
+            List<int> winners = new List<int>();
+            int dealerValue = dealer.GetHandValue();
+            bool dealerBust = dealerValue > 21;
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                int playerValue = players[i].GetHandValue();
+                bool playerBust = playerValue > 21;
+
+                if (!playerBust)
+                {
+                    if (dealerBust || playerValue > dealerValue)
+                    {
+                        winners.Add(i); 
+                    }
+                    else if (playerValue == dealerValue)
+                    {
+                        
+                        winners.Add(-1); 
+                    }
+                }
+            }
+
+            
+            bool allPlayersLoseOrBust = players.All(p => p.GetHandValue() > 21 || (!dealerBust && p.GetHandValue() < dealerValue));
+            if (allPlayersLoseOrBust && !dealerBust)
+            {
+                winners.Clear();
+                winners.Add(4); 
+            }
+
+            return winners.Distinct().ToList();
+        }
+
+
+
+
+
     }
 }
