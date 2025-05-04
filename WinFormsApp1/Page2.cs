@@ -474,7 +474,7 @@ namespace WinFormsApp1
                 var correctWinners = game.GetRecommendedWinners();
                 bool isCorrect = game.ScoreSystem.JudgeWinnerSelection(selectedWinners, correctWinners);
 
-                MessageBox.Show(isCorrect ? "✔！+1 分" : "✘！-1 分", "Result");
+                MessageBox.Show(isCorrect ? "✔！+1 " : "✘！-1 ", "Result");
                 UpdateScoreDisplay(isCorrect);
 
                 if (isCorrect)
@@ -485,7 +485,7 @@ namespace WinFormsApp1
                 }
                 else
                 {
-                    MessageBox.Show("请重新选择正确的平局！");
+                    MessageBox.Show("Wrong Choice！");
                 }
                 return;
             }
@@ -497,7 +497,7 @@ namespace WinFormsApp1
                 var correctWinners = game.GetRecommendedWinners();
                 bool isCorrect = game.ScoreSystem.JudgeWinnerSelection(selectedWinners, correctWinners);
 
-                MessageBox.Show($"{winnerNames} Win!\n" + (isCorrect ? "✔！+1 分" : "✘！-1 分"), "Result");
+                MessageBox.Show($"{winnerNames} Win!\n" + (isCorrect ? "✔！+1 " : "✘！-1 "), "Result");
                 UpdateScoreDisplay(isCorrect);
 
                 if (isCorrect)
@@ -510,7 +510,7 @@ namespace WinFormsApp1
                 else
                 {
                     
-                    MessageBox.Show("请重新选择正确的赢家！");
+                    MessageBox.Show("Wrong Choice！");
                 }
             }
 
