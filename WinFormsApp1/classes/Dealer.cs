@@ -10,7 +10,7 @@ namespace WinFormsApp1.classes
     {
         public bool ShouldHit()
         {
-            return Score < 17; // 庄家必须在小于17时继续拿牌
+            return Score < 17; 
         }
     }
 }

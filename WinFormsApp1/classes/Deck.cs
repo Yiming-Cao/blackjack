@@ -26,7 +26,7 @@ namespace WinFormsApp1.classes
             for (int i = cards.Count - 1; i > 0; i--)
             {
                 int j = rand.Next(i + 1);
-                (cards[i], cards[j]) = (cards[j], cards[i]); // 交换位置
+                (cards[i], cards[j]) = (cards[j], cards[i]); 
             }
         }
 
@@ -43,7 +43,7 @@ namespace WinFormsApp1.classes
             return drawnCard;
         }
 
-        // ✅ 静态方法：生成一副标准 52 张牌
+        
         public static List<Card> GenerateStandardDeck()
         {
             List<Card> singleDeck = new List<Card>();

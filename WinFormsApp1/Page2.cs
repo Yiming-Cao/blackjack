@@ -42,19 +42,19 @@ namespace WinFormsApp1
 
         private void StartShuffleAnimation()
         {
-            // 如果之前有图，就先移除  
+             
             if (shuffleBox != null && this.Controls.Contains(shuffleBox))
                 this.Controls.Remove(shuffleBox);
 
-            // 创建一个显示牌背的 PictureBox  
+            
             shuffleBox = new PictureBox
             {
                 Size = new Size(80, 120),
-                Location = new Point(Width / 2 - 40, Height / 2 - 60), // 居中  
+                Location = new Point(Width / 2 - 40, Height / 2 - 60),  
                 SizeMode = PictureBoxSizeMode.StretchImage
             };
 
-            // 修复 CS0029 错误：将 byte[] 转换为 Image  
+            
             using (MemoryStream ms = new MemoryStream(Properties.Resources.back_of_card))
             {
                 shuffleBox.Image = Image.FromStream(ms);
@@ -63,10 +63,10 @@ namespace WinFormsApp1
             this.Controls.Add(shuffleBox);
             shuffleBox.BringToFront();
 
-            // 创建 Timer  
+             
             shuffleFrame = 0;
             shuffleTimer = new System.Windows.Forms.Timer();
-            shuffleTimer.Interval = 50; // 每 50ms 一帧  
+            shuffleTimer.Interval = 50;   
             shuffleTimer.Tick += ShuffleTimer_Tick;
             shuffleTimer.Start();
         }
@@ -75,15 +75,15 @@ namespace WinFormsApp1
         {
             shuffleFrame++;
 
-            // 每次 Tick 可以稍微改变位置/角度来制造“在洗”的感觉
+            
             shuffleBox.Left = this.Width / 2 - 40 + (shuffleFrame % 2 == 0 ? -5 : 5);
             shuffleBox.Top = this.Height / 2 - 60 + (shuffleFrame % 3 - 1) * 3;
 
-            if (shuffleFrame > 20) // 播放 20 帧左右
+            if (shuffleFrame > 20) 
             {
                 shuffleTimer.Stop();
                 shuffleTimer.Dispose();
-                this.Controls.Remove(shuffleBox); // 动画结束，移除
+                this.Controls.Remove(shuffleBox); 
                 shuffleBox.Dispose();
             }
         }
@@ -102,7 +102,7 @@ namespace WinFormsApp1
 
             if (AllPlayersAndDealerHaveTwoCards())
             {
-                decisionTimer.Start(); // 开始计时，2 秒后触发气泡
+                decisionTimer.Start(); 
             }
 
             ShowAllScores();
@@ -113,16 +113,16 @@ namespace WinFormsApp1
         {
             if (!game.ScoreSystem.IsFreeHitPhase)
             {
-                // 发牌阶段：判断发牌顺序是否正确
+                
                 DealToPlayer(playerIndex, playerPanel);
                 bool isCorrect = game.ScoreSystem.ValidateStep($"Deal_Player{playerIndex + 1}");
                 UpdateScoreDisplay(isCorrect);
             }
             else
             {
-                // 自由 Hit 阶段：判断是否该 Hit
+                
                 int handValue = game.GetPlayer(playerIndex).GetHandValue();
-                Card card = game.DealCardToPlayer(playerIndex, true);  // true 表示启用“是否应 Hit”的打分逻辑
+                Card card = game.DealCardToPlayer(playerIndex, true);  
                 if (card != null)
                 {
                     ShowCardInPanel(card, playerPanel, game.GetPlayer(playerIndex).Hand.Count - 1);
@@ -130,14 +130,26 @@ namespace WinFormsApp1
                 bool hitCorrectly = game.ScoreSystem.JudgePlayerHit(handValue);
                 UpdateScoreDisplay(hitCorrectly);
                 ShowAllScores();
-                HidePlayerDecision(playerIndex);
 
-                // ✅ 加上这段判断玩家是否结束 Hit
+                
                 int newHandValue = game.GetPlayer(playerIndex).GetHandValue();
-                if (newHandValue >= 17 || newHandValue > 21)
+                if (newHandValue > 21)
                 {
                     game.GetPlayer(playerIndex).IsDone = true;
+                    ShowPlayerDecision(playerIndex, "Bust"); 
                 }
+                else if (newHandValue >= 17)
+                {
+                    game.GetPlayer(playerIndex).IsDone = true;
+                    ShowPlayerDecision(playerIndex, "Stand");
+                }
+                else
+                {
+                    ShowPlayerDecision(playerIndex, "Hit");
+                }
+
+                RefreshPlayerDecisions();  
+
             }
         }
 
@@ -164,12 +176,12 @@ namespace WinFormsApp1
                 Location = new Point(20 * index, 0),
                 SizeMode = PictureBoxSizeMode.StretchImage
             };
-            // 使用牌背图片
+            
             using (MemoryStream ms = new MemoryStream(Properties.Resources.back_of_card))
             {
                 pb.Image = Image.FromStream(ms);
             }
-            pb.Tag = card;  // 存储真实的牌
+            pb.Tag = card;  
             panel.Controls.Add(pb);
             pb.BringToFront();
         }
@@ -181,7 +193,7 @@ namespace WinFormsApp1
                 PictureBox secondCard = panelDealerCards.Controls[1] as PictureBox;
                 if (secondCard != null && secondCard.Tag is Card realCard)
                 {
-                    secondCard.Image = realCard.Img;  // 还原真实的牌
+                    secondCard.Image = realCard.Img;  
                 }
             }
         }
@@ -211,7 +223,7 @@ namespace WinFormsApp1
             int dealerCount = game.DealerCardCount();
             if (dealerCount == 0)
             {
-                // 发庄家第一张牌（明牌）
+                
                 Card c = game.DealDealerFirstCard();
                 if (c != null)
                     ShowCardInPanel(c, panelDealerCards, 0);
@@ -222,15 +234,15 @@ namespace WinFormsApp1
             }
             else if (dealerCount == 1)
             {
-                // 发庄家第二张牌（暗牌），隐藏状态
+                
                 Card c = game.DealDealerSecondCard();
                 if (c != null)
                     ShowHiddenCardInPanel(c, panelDealerCards, 1);
 
-                // ✅ 添加这个判断
+                
                 if (AllPlayersAndDealerHaveTwoCards())
                 {
-                    decisionTimer.Start(); // 所有人都有两张牌了，开始显示 Hit/Stand
+                    decisionTimer.Start(); 
                 }
                 ShowAllScores();
 
@@ -247,20 +259,20 @@ namespace WinFormsApp1
 
                 if (allPlayersDone)
                 {
-                    Card c = game.DealExtraDealerCard(); // 给庄家发牌
+                    Card c = game.DealExtraDealerCard(); 
                     if (c != null)
                     {
                         ShowCardInPanel(c, panelDealerCards, dealerCount);
                     }
 
-                    // ✅ 打分逻辑：只在所有玩家都完成后才计算庄家的打分
+                    
                     bool isCorrect = game.ScoreSystem.JudgeDealerDraw(dealerHandValue, allPlayersDone);
                     UpdateScoreDisplay(isCorrect);
                     ShowAllScores();
                 }
                 else
                 {
-                    // ❌ 玩家未完成，庄家却抽牌 → 扣分！
+                    
                     bool isCorrect = game.ScoreSystem.JudgeDealerDraw(dealerHandValue, false);
                     UpdateScoreDisplay(isCorrect);
                 }
@@ -273,7 +285,7 @@ namespace WinFormsApp1
             {
                 if (ctrl is PictureBox pb && pb.Tag is Card card)
                 {
-                    // 找到有 Card 的 PictureBox（暗牌），显示出来
+                    
                     MessageBox.Show($"Hidden card is：{card}");
                     return;
                 }
@@ -284,8 +296,8 @@ namespace WinFormsApp1
 
         private void buttonShuffle_Click(object sender, EventArgs e)
         {
-            StartShuffleAnimation(); // 播放动画
-            game.ShuffleDeck();      // 执行洗牌逻辑
+            StartShuffleAnimation(); 
+            game.ShuffleDeck();      
 
             bool isCorrect = game.ScoreSystem.ValidateStep("Shuffle");
             UpdateScoreDisplay(isCorrect);
@@ -347,21 +359,14 @@ namespace WinFormsApp1
 
         private void DecisionTimer_Tick(object sender, EventArgs e)
         {
-            decisionTimer.Stop(); // 停止定时器，防止重复触发
+            decisionTimer.Stop(); 
+            RefreshPlayerDecisions();
 
-            for (int i = 0; i < 4; i++)
-            {
-                int total = game.GetPlayer(i).Hand.Sum(card => card.Value);
-                string decision = total < 17 ? "Hit" : "Stand";
-                ShowPlayerDecision(i, decision); // 你之前已有这个方法
-                game.GetPlayer(i).IsDone = true;
-
-            }
         }
 
         private void Deck1Button_Click(object sender, EventArgs e)
         {
-            // 创建游戏实例并设置使用1副牌
+            
             game.SetDeckCount(1);
             MessageBox.Show("Using 1 deck !");
 
@@ -371,7 +376,7 @@ namespace WinFormsApp1
 
         private void Deck2Button_Click(object sender, EventArgs e)
         {
-            // 创建游戏实例并设置使用2副牌
+            
             game.SetDeckCount(2);
             MessageBox.Show("Using 2 deck !");
 
@@ -397,7 +402,7 @@ namespace WinFormsApp1
 
         private void buttonSet_Click(object sender, EventArgs e)
         {
-            ShowWinnerButtons();  // 显示所有“胜出”按钮
+            ShowWinnerButtons();  
         }
 
         private void ShowWinnerButtons()
@@ -446,12 +451,12 @@ namespace WinFormsApp1
             if (selectedWinners.Contains(index))
             {
                 selectedWinners.Remove(index);
-                button.BackColor = SystemColors.Control;  // 恢复原色
+                button.BackColor = SystemColors.Control;  
             }
             else
             {
                 selectedWinners.Add(index);
-                button.BackColor = Color.LightGreen;  // 标记选中
+                button.BackColor = Color.LightGreen;  
             }
         }
 
@@ -469,13 +474,19 @@ namespace WinFormsApp1
                 var correctWinners = game.GetRecommendedWinners();
                 bool isCorrect = game.ScoreSystem.JudgeWinnerSelection(selectedWinners, correctWinners);
 
-                MessageBox.Show(isCorrect ? "✔正确选择平局！+1 分" : "✘错误！-1 分", "Result");
+                MessageBox.Show(isCorrect ? "✔！+1 分" : "✘！-1 分", "Result");
                 UpdateScoreDisplay(isCorrect);
 
-                // 清理 UI 和状态
-                selectedWinners.Clear();
-                ResetWinnerButtons();
-                buttonSet.Enabled = false;
+                if (isCorrect)
+                {
+                    selectedWinners.Clear();
+                    ResetWinnerButtons();
+                    buttonSet.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("请重新选择正确的平局！");
+                }
                 return;
             }
             else
@@ -486,15 +497,23 @@ namespace WinFormsApp1
                 var correctWinners = game.GetRecommendedWinners();
                 bool isCorrect = game.ScoreSystem.JudgeWinnerSelection(selectedWinners, correctWinners);
 
-                MessageBox.Show($"{winnerNames} Win!\n" + (isCorrect ? "✔正确选择胜者！+1 分" : "✘选择错误！-1 分"), "Result");
+                MessageBox.Show($"{winnerNames} Win!\n" + (isCorrect ? "✔！+1 分" : "✘！-1 分"), "Result");
                 UpdateScoreDisplay(isCorrect);
+
+                if (isCorrect)
+                {
+                    
+                    selectedWinners.Clear();
+                    ResetWinnerButtons();
+                    buttonSet.Enabled = false;
+                }
+                else
+                {
+                    
+                    MessageBox.Show("请重新选择正确的赢家！");
+                }
             }
 
-
-            // 清理 UI 和状态
-            selectedWinners.Clear();
-            ResetWinnerButtons();
-            buttonSet.Enabled = false;
         }
 
         private void ResetWinnerButtons()
@@ -551,9 +570,9 @@ namespace WinFormsApp1
             labelScore4.Visible = false;
             labelScoreDealer.Visible = false;
             game.RestartGame();
-            game.ScoreSystem.Reset();              // ✅ 重置分数系统
+            game.ScoreSystem.Reset();              
             game.ScoreSystem.IsFreeHitPhase = false;
-            UpdateScoreDisplay(true);              // ✅ 更新分数显示为初始值
+            UpdateScoreDisplay(true);              
             MessageBox.Show("Game restart !");
         }
 
@@ -566,9 +585,35 @@ namespace WinFormsApp1
             else
                 labelTip.Text = "✘wrong step -1 ";
 
-            labelTip.Visible = true;  // 显示提示
+            labelTip.Visible = true;  
             labelScore.Visible = true;
         }
+
+        private void RefreshPlayerDecisions()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (game.GetPlayer(i).IsDone)
+                    continue;
+
+                int total = game.GetPlayer(i).GetHandValue();
+                if (total > 21)
+                {
+                    ShowPlayerDecision(i, "Bust");
+                    game.GetPlayer(i).IsDone = true;
+                }
+                else if (total >= 17)
+                {
+                    ShowPlayerDecision(i, "Stand");
+                    game.GetPlayer(i).IsDone = true;
+                }
+                else
+                {
+                    ShowPlayerDecision(i, "Hit");
+                }
+            }
+        }
+
 
 
 

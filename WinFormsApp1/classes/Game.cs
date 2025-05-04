@@ -11,10 +11,10 @@ namespace WinFormsApp1.classes
         private List<Card> deck;
         private Player[] players;
         private Dealer dealer;
-        private bool isDealerSecondCardHidden; // 标记庄家的第二张牌是否隐藏
-        private int currentDealRound = 0; // 用于判断发第几轮
+        private bool isDealerSecondCardHidden; 
+        private int currentDealRound = 0; 
         private int numberOfDecks = 1;
-        public int? WinnerIndex { get; private set; } = null;  // 0-3 玩家，4 表示庄家
+        public int? WinnerIndex { get; private set; } = null;  
         public bool IsGameOver { get; private set; } = false;
         private List<int> winnerIndices = new List<int>();
         public Score ScoreSystem = new Score();
@@ -66,26 +66,26 @@ namespace WinFormsApp1.classes
             return card;
         }
 
-        // 发牌给庄家：第一张牌（明牌）
+        
         public Card DealDealerFirstCard()
         {
 
             Card card = deck[0];
             deck.RemoveAt(0);
             dealer.ReceiveCard(card);
-            // 第一张牌为明牌
+            
             isDealerSecondCardHidden = false;
             return card;
 
         }
 
-        // 发牌给庄家：第二张牌（暗牌）
+        
         public Card DealDealerSecondCard()
         {
             Card card = deck[0];
             deck.RemoveAt(0);
             dealer.ReceiveCard(card);
-            // 第二张牌设置为隐藏
+            
             isDealerSecondCardHidden = true;
             return card;
 
@@ -95,23 +95,23 @@ namespace WinFormsApp1.classes
         {
             Card card = deck[0];
             deck.RemoveAt(0);
-            dealer.ReceiveCard(card);  // 发牌到庄家手上
+            dealer.ReceiveCard(card);  
             return card;
         }
 
         public void RestartGame()
         {
-            // 重新初始化玩家和庄家的手牌
+            
             foreach (var player in players)
             {
-                player.ResetHand();  // 假设Player类有ClearHand方法，用于清空手牌 
+                player.ResetHand();   
             }
-            dealer.ResetHand();  // 假设Dealer类有ClearHand方法，用于清空庄家手牌
+            dealer.ResetHand();  
 
-            // 重置庄家的第二张牌是否隐藏
+            
             isDealerSecondCardHidden = false;
 
-            // 重置发牌轮数
+            
             currentDealRound = 0;
 
             ScoreSystem.IsFreeHitPhase = false;
@@ -138,10 +138,10 @@ namespace WinFormsApp1.classes
             return string.Join(" & ", names);
         }
 
-        // 提供庄家手牌数
+        
         public int DealerCardCount() => dealer.Hand.Count;
 
-        // 让 UI 知道庄家第二张牌是否隐藏
+        
         public bool IsDealerSecondCardHidden() => isDealerSecondCardHidden;
 
 
@@ -154,7 +154,7 @@ namespace WinFormsApp1.classes
 
         public void AdvanceRound() => currentDealRound++;
 
-        // 🔹 触发游戏结束时翻开庄家的第二张牌
+        
         public void RevealDealerCard() => isDealerSecondCardHidden = false;
 
         public bool AreAllPlayersDone()
@@ -174,40 +174,37 @@ namespace WinFormsApp1.classes
             int dealerValue = dealer.GetHandValue();
             bool dealerBust = dealerValue > 21;
 
-            bool anyPush = false;
-
             for (int i = 0; i < players.Length; i++)
             {
                 int playerValue = players[i].GetHandValue();
                 bool playerBust = playerValue > 21;
 
-                if (playerBust)
-                    continue;
-
-                if (dealerBust || playerValue > dealerValue)
+                if (!playerBust)
                 {
-                    winners.Add(i); // 玩家赢
-                }
-                else if (playerValue == dealerValue)
-                {
-                    anyPush = true; // 平局情况，暂不加 -1，避免混入多个判断
+                    if (dealerBust || playerValue > dealerValue)
+                    {
+                        winners.Add(i); 
+                    }
+                    else if (playerValue == dealerValue)
+                    {
+                        
+                        winners.Add(-1); 
+                    }
                 }
             }
 
-            // 如果没人赢但有平局
-            if (winners.Count == 0 && anyPush)
+            
+            bool allPlayersLoseOrBust = players.All(p => p.GetHandValue() > 21 || (!dealerBust && p.GetHandValue() < dealerValue));
+            if (allPlayersLoseOrBust && !dealerBust)
             {
-                winners.Add(-1); // 表示 Push 平局
-            }
-
-            // 如果没人赢没人平局，庄家赢（只有庄家没爆）
-            if (winners.Count == 0 && !dealerBust)
-            {
-                winners.Add(4); //庄家赢
+                winners.Clear();
+                winners.Add(4); 
             }
 
             return winners.Distinct().ToList();
         }
+
+
 
 
 

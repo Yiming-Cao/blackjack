@@ -61,12 +61,12 @@ namespace WinFormsApp1.classes
             if (playerHandValue < 17)
             {
                 TotalScore += 1;
-                return true; // 正确 Hit
+                return true; 
             }
             else
             {
                 TotalScore -= 1;
-                return false; // 错误 Hit
+                return false; 
             }
         }
 
@@ -74,19 +74,18 @@ namespace WinFormsApp1.classes
         {
             if (allPlayersDone == false)
             {
-                // 玩家未完成操作时庄家就发牌，扣分
                 TotalScore -= 1;
                 return false;
             }
 
             if (dealerHandValue < 17)
             {
-                TotalScore += 1; // 正确 Hit
+                TotalScore += 1; 
                 return true;
             }
             else
             {
-                TotalScore -= 1; // 不应该再发了
+                TotalScore -= 1; 
                 return false;
             }
         }
@@ -96,15 +95,18 @@ namespace WinFormsApp1.classes
             selected.Sort();
             correct.Sort();
 
-            // 排除 -1（代表平局）后比较，或更严格处理
-            bool isCorrect = selected.Count == correct.Count && !selected.Except(correct).Any();
+            bool hasCorrect = selected.Any(s => correct.Contains(s));
 
-            if (isCorrect)
+            if (hasCorrect)
+            {
                 TotalScore += 1;
+                return true;
+            }
             else
+            {
                 TotalScore -= 1;
-
-            return isCorrect;
+                return false;
+            }
         }
 
 

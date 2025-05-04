@@ -58,11 +58,11 @@ namespace WinFormsApp1.classes
             }
             else if (imgObj is Image img)
             {
-                return img;  // 如果资源是 Image 类型，直接返回
+                return img;  
             }
             else
             {
-                return LoadFallbackImage(); // 加载默认小丑牌
+                return LoadFallbackImage(); 
             }
         }
 
@@ -81,7 +81,7 @@ namespace WinFormsApp1.classes
             {
                 return img;
             }
-            return null; // 如果找不到，返回 null（不建议）
+            return null; 
         }
 
         public void SetAceValueToOne()

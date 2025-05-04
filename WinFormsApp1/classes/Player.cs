@@ -19,7 +19,7 @@ namespace WinFormsApp1.classes
         public void ResetHand()
         {
             Hand.Clear();
-            IsDone = false; // ✅ 每局开始前重置
+            IsDone = false; 
         }
 
         public void ReceiveCard(Card card)
