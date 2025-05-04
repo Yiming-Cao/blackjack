@@ -90,6 +90,24 @@ namespace WinFormsApp1.classes
                 return false;
             }
         }
+
+        public bool JudgeWinnerSelection(List<int> selected, List<int> correct)
+        {
+            selected.Sort();
+            correct.Sort();
+
+            // 排除 -1（代表平局）后比较，或更严格处理
+            bool isCorrect = selected.Count == correct.Count && !selected.Except(correct).Any();
+
+            if (isCorrect)
+                TotalScore += 1;
+            else
+                TotalScore -= 1;
+
+            return isCorrect;
+        }
+
+
     }
 
 }

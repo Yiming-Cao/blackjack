@@ -114,6 +114,9 @@ namespace WinFormsApp1.classes
             // 重置发牌轮数
             currentDealRound = 0;
 
+            ScoreSystem.IsFreeHitPhase = false;
+
+
         }
 
         public void SetMultipleWinners(List<int> indices)
@@ -164,5 +167,49 @@ namespace WinFormsApp1.classes
             }
             return true;
         }
+
+        public List<int> GetRecommendedWinners()
+        {
+            List<int> winners = new List<int>();
+            int dealerValue = dealer.GetHandValue();
+            bool dealerBust = dealerValue > 21;
+
+            bool anyPush = false;
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                int playerValue = players[i].GetHandValue();
+                bool playerBust = playerValue > 21;
+
+                if (playerBust)
+                    continue;
+
+                if (dealerBust || playerValue > dealerValue)
+                {
+                    winners.Add(i); // 玩家赢
+                }
+                else if (playerValue == dealerValue)
+                {
+                    anyPush = true; // 平局情况，暂不加 -1，避免混入多个判断
+                }
+            }
+
+            // 如果没人赢但有平局
+            if (winners.Count == 0 && anyPush)
+            {
+                winners.Add(-1); // 表示 Push 平局
+            }
+
+            // 如果没人赢没人平局，庄家赢（只有庄家没爆）
+            if (winners.Count == 0 && !dealerBust)
+            {
+                winners.Add(4); //庄家赢
+            }
+
+            return winners.Distinct().ToList();
+        }
+
+
+
     }
 }

@@ -466,6 +466,11 @@ namespace WinFormsApp1
             if (selectedWinners.Contains(-1))
             {
                 MessageBox.Show("Push（No winner）!", "Result");
+                var correctWinners = game.GetRecommendedWinners();
+                bool isCorrect = game.ScoreSystem.JudgeWinnerSelection(selectedWinners, correctWinners);
+
+                MessageBox.Show(isCorrect ? "✔正确选择平局！+1 分" : "✘错误！-1 分", "Result");
+                UpdateScoreDisplay(isCorrect);
 
                 // 清理 UI 和状态
                 selectedWinners.Clear();
@@ -473,15 +478,22 @@ namespace WinFormsApp1
                 buttonSet.Enabled = false;
                 return;
             }
+            else
+            {
+                game.SetMultipleWinners(selectedWinners);
+                string winnerNames = game.GetMultipleWinnerNames();
 
-            game.SetMultipleWinners(selectedWinners);
-            string winnerNames = game.GetMultipleWinnerNames();
-            MessageBox.Show($"{winnerNames} Win!", "Result");
+                var correctWinners = game.GetRecommendedWinners();
+                bool isCorrect = game.ScoreSystem.JudgeWinnerSelection(selectedWinners, correctWinners);
 
-            // 清除UI和状态
+                MessageBox.Show($"{winnerNames} Win!\n" + (isCorrect ? "✔正确选择胜者！+1 分" : "✘选择错误！-1 分"), "Result");
+                UpdateScoreDisplay(isCorrect);
+            }
+
+
+            // 清理 UI 和状态
             selectedWinners.Clear();
             ResetWinnerButtons();
-
             buttonSet.Enabled = false;
         }
 
@@ -539,6 +551,9 @@ namespace WinFormsApp1
             labelScore4.Visible = false;
             labelScoreDealer.Visible = false;
             game.RestartGame();
+            game.ScoreSystem.Reset();              // ✅ 重置分数系统
+            game.ScoreSystem.IsFreeHitPhase = false;
+            UpdateScoreDisplay(true);              // ✅ 更新分数显示为初始值
             MessageBox.Show("Game restart !");
         }
 
